@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        :root {
+            --lava1: #ff4500;
+            --lava2: #ff6b00;
+            --green1: #00ff88;
+            --green2: #50c878;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #0a1608;
+            touch-action: none;
+        }
+
+        .glass-container {
+            position: fixed;
+            color: white;
+            
+            width: 100vw;
+            height: 100vh;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            background: rgba(20, 50, 20, 0.15);
+        }
+
+        .metaball {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            transition: filter 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="glass-container" id="container">HELLOO</div>
+
+    <script>
+        class Metaball {
+            constructor(container) {
+                this.container = container;
+                this.element = document.createElement('div');
+                this.element.className = 'metaball';
+                this.reset();
+                container.appendChild(this.element);
+                
+                // Physics properties
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 2,
+                    y: (Math.random() - 0.5) * 2
+                };
+                this.friction = 0.98;
+                this.spring = 0.01;
+            }
+
+            reset() {
+                this.size = Math.random() * 150 + 100;
+                this.x = Math.random() * window.innerWidth;
+                this.y = Math.random() * window.innerHeight;
+                this.targetScale = 1;
+                
+                // Random color theme (lava or green)
+                const isLava = Math.random() > 0.5;
+                const color1 = isLava ? 
+                    `hsl(${Math.random() * 20 + 10}, 100%, 50%)` : 
+                    `hsl(${Math.random() * 60 + 120}, 100%, 50%)`;
+                
+                const color2 = isLava ? 
+                    `hsl(${Math.random() * 20 + 20}, 100%, 60%)` : 
+                    `hsl(${Math.random() * 60 + 130}, 100%, 60%)`;
+
+                this.element.style.width = `${this.size}px`;
+                this.element.style.height = `${this.size}px`;
+                this.element.style.background = 
+                    `radial-gradient(circle at 30% 30%, ${color1}, ${color2} 70%, transparent 85%)`;
+            }
+
+            update(mouse) {
+                // Fluid dynamics
+                const dx = mouse.x - this.x;
+                const dy = mouse.y - this.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const force = Math.min(5000 / (distance * distance), 50);
+
+                if (distance < 400) {
+                    this.velocity.x += (dx / distance) * force * this.spring;
+                    this.velocity.y += (dy / distance) * force * this.spring;
+                    this.targetScale = 1.2;
+                } else {
+                    this.targetScale = 1;
+                }
+
+                // Apply physics
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+
+                // Window bounds
+                if (this.x < -this.size) this.x = window.innerWidth + this.size;
+                if (this.x > window.innerWidth + this.size) this.x = -this.size;
+                if (this.y < -this.size) this.y = window.innerHeight + this.size;
+                if (this.y > window.innerHeight + this.size) this.y = -this.size;
+
+                // Apply transforms
+                this.element.style.transform = `
+                    translate(${this.x}px, ${this.y}px)
+                    scale(${this.targetScale})
+                `;
+                this.element.style.filter = 
+                    `blur(${40 + Math.abs(this.velocity.x + this.velocity.y) * 2}px)`;
+            }
+        }
+
+        // Initialize system
+        const container = document.getElementById('container');
+        const metaballs = Array.from({ length: 8 }, () => new Metaball(container));
+        const mouse = { x: window.innerWidth/2, y: window.innerHeight/2 };
+
+        // Mouse interaction
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        // Touch interaction
+        document.addEventListener('touchmove', (e) => {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+        }, { passive: true });
+
+        // Animation loop
+        function animate() {
+            metaballs.forEach(metaball => metaball.update(mouse));
+            requestAnimationFrame(animate);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            metaballs.forEach(metaball => metaball.reset());
+        });
+
+        animate();
+    </script>
+</body>
+</html>

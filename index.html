@@ -3,54 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TinkerHub NSSCE</title>
+  <title>TinkerHub Campus Community</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/metaball.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="description" content="TinkerHub NSSCE Campus Community - A platform for students to learn, collaborate, and grow together." />
 </head>
 <body>
   <!-- Navbar -->
   <div id="navbar"></div>
 
-  <!-- Hero Section -->
+  <!-- Menu Overlay -->
+  <div id="menu-overlay" class="menu-overlay">
+    <nav class="menu-nav">
+      <a href="index.html">Home</a>
+      <a href="announcements.html">Announcements</a>
+      <a href="events.html">Events</a>
+      <a href="resources.html">Resources</a>
+      <a href="forum.html">Forum</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
+  </div>
+
+  <!-- Hero Section with Metaball Animation -->
   <section class="hero">
+    <!-- Metaball Animation Container -->
+    <div class="metaball-container" id="metaball-container"></div>
+    
     <div class="hero-content">
-      <h1>Welcome to TinkerHub NSSCE Campus Community</h1>
-      <p>Learn, collaborate, and grow together!</p>
-      <a href="events.html" class="btn">Explore Events</a>
+      <h1 id="hero-title">Welcome to TinkerHub NSSCE<br>Campus Community</h1>
+      <p id="hero-subtext">Learn, collaborate, innovate, and grow together!</p>
+      <!-- Menu button -->
+      <button id="menu-open" class="btn menu-btn">Explore <span class="menu-icon">→</span></button>
     </div>
   </section>
 
   <!-- About Section -->
   <section class="about">
-    <h2>About Us</h2>
-    <p>
-      TinkerHub is a student-driven community focused on peer-to-peer learning,
-      tech exploration, and real-world skills. Join us to attend events, share
-      resources, and connect with like-minded learners.
-    </p>
+    <div class="container">
+      <h2 id="about-title">About Us</h2>
+      <p id="about-text">
+        TinkerHub Foundation is a community of tinkerers, makers & students - working towards mapping and empowering people who share a passion to innovate. We foster a culture of experimentation, creative problem-solving, and peer learning across campuses.
+      </p>
+    </div>
   </section>
 
   <!-- Highlights Section -->
   <section class="highlights">
-    <h2>Explore</h2>
-    <div class="cards">
-      <a href="announcements.html" class="card">
-        <h3>Announcements</h3>
-        <p>Latest updates and notices.</p>
-      </a>
-      <a href="events.html" class="card">
-        <h3>Events</h3>
-        <p>Workshops, meetups, and more.</p>
-      </a>
-      <a href="resources.html" class="card">
-        <h3>Resources</h3>
-        <p>Guides, notes, and useful links.</p>
-      </a>
+    <div class="container">
+      <h2 id="explore-title">Explore</h2>
+      <div class="cards">
+        <a href="announcements.html" class="card">
+          <div class="card-inner">
+            <h3 class="card-title">Announcements</h3>
+            <p class="card-desc">Stay updated with the latest news, updates and notices from our community.</p>
+            <span class="card-arrow">→</span>
+          </div>
+        </a>
+        <a href="events.html" class="card">
+          <div class="card-inner">
+            <h3 class="card-title">Events</h3>
+            <p class="card-desc">Join our workshops, hackathons, meetups, and other exciting events.</p>
+            <span class="card-arrow">→</span>
+          </div>
+        </a>
+        <a href="resources.html" class="card">
+          <div class="card-inner">
+            <h3 class="card-title">Resources</h3>
+            <p class="card-desc">Access guides, learning materials and useful links.</p>
+            <span class="card-arrow">→</span>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- Footer -->
   <div id="footer"></div>
 
+  <!-- Load JavaScript -->
   <script src="js/main.js"></script>
+  <script src="js/metaball.js"></script>
+  
+  <!-- Optional - Preload the metaball animation for smoother startup -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add loading indicator if the animation takes time
+      const metaballContainer = document.getElementById('metaball-container');
+      if (metaballContainer) {
+        // Force a reflow to ensure animations are smooth
+        void metaballContainer.offsetWidth;
+      }
+    });
+  </script>
 </body>
 </html>
