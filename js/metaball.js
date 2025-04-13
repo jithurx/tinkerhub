@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Number of metaballs based on screen size
     const width = window.innerWidth;
-    const metaballCount = width < 768 ? 10 : 8; // Fewer on mobile
+    const metaballCount = width < 768 ? 10 : 20; // Fewer on mobile
     
     const metaballs = Array.from({ length: metaballCount }, () => new Metaball(container));
     

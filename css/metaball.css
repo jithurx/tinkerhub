@@ -33,7 +33,7 @@
     background: rgba(255, 255, 255, 0.253); /* Slightly transparent background */
     z-index: 0;
     overflow: hidden;
-    filter: contrast(50); /* Enhance contrast for more vibrant liquid effect */
+    filter: contrast(5); /* Enhance contrast for more vibrant liquid effect */
 }
 
 .hero-content {
@@ -117,7 +117,8 @@
     color: #030303;
     border-color: transparent;
     transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(189, 228, 50, 0.4);
+    border: 1px solid rgb(0, 0, 0);
+    /* box-shadow: 0 6px 20px rgba(189, 228, 50, 0.4); */
 }
 
 /* Add responsive adjustments for different screen sizes */
