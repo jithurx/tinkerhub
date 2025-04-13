@@ -1,0 +1,78 @@
+
+.announcements-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .announcement-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .announcement-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .announcement-img-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .announcement-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .announcement-img:hover {
+    transform: scale(1.03);
+  }
+  
+  .announcement-content {
+    padding: 0.8rem;
+  }
+  
+  .announcement-content h2 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+  }
+  
+  .announcement-content small {
+    color: #777;
+    font-size: 0.8rem;
+  }
+  
+  .announcement-content p {
+    margin-top: 0.5rem;
+    color: #333;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  .announcement-content .btn {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  }
+  
