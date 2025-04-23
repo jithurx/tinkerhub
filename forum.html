@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forum | TinkerHub Campus Community</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/forum.css" />
+</head>
+<body>
+  <!-- Navbar -->
+  <div id="navbar"></div>
+
+  <main class="forum-container">
+    <h1>Community Forum</h1>
+    <div id="message-list" class="message-list"></div>
+    <form id="message-form" class="message-form">
+      <input type="text" id="username" placeholder="Your name" required />
+      <textarea id="message-input" placeholder="Write your message..." rows="3" required></textarea>
+      <button type="submit">Send</button>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <script src="js/main.js"></script>
+  <script src="js/forum.js"></script>
+</body>
+</html>

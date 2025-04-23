@@ -1,0 +1,66 @@
+.events-section {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  .events-section h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .event-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .event-card {
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .event-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .event-content {
+    padding: 1rem;
+  }
+  
+  .event-content h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    margin: 0 0 0.5rem;
+  }
+  
+  .event-content small {
+    color: #888;
+  }
+  
+  .event-content p {
+    margin-top: 0.5rem;
+    color: #444;
+  }
+  
+  #toggle-past-btn {
+    margin: 2rem auto;
+    display: block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  #past-events.hidden {
+    display: none;
+  }

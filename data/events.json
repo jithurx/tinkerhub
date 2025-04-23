@@ -1,0 +1,23 @@
+[
+    {
+      "id": "ai-bootcamp",
+      "title": "AI Bootcamp",
+      "date": "2025-04-18",
+      "description": "A weekend of learning ML and AI basics from scratch!",
+      "image": "images/event-thumbnails/ai-bootcamp.jpg"
+    },
+    {
+      "id": "web-dev-sprint",
+      "title": "Web Dev Sprint",
+      "date": "2025-03-10",
+      "description": "Participants built and launched real websites in 48 hours.",
+      "image": "images/event-thumbnails/web-dev-sprint.jpg"
+    },
+    {
+      "id": "git-session",
+      "title": "Git & GitHub Session",
+      "date": "2025-02-20",
+      "description": "A workshop on version control and collaboration using GitHub.",
+      "image": "images/event-thumbnails/git-session.jpg"
+    }
+  ]
