@@ -1,78 +1,110 @@
-
 .announcements-page {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 1rem;
-  }
-  
-  .page-header {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .announcement-list {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-  
-  .announcement-card {
-    display: flex;
-    flex-direction: column;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .announcement-img-container {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-  }
-  
-  .announcement-img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-  
-  .announcement-img:hover {
-    transform: scale(1.03);
-  }
-  
-  .announcement-content {
-    padding: 0.8rem;
-  }
-  
-  .announcement-content h2 {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-    font-weight: 600;
-  }
-  
-  .announcement-content small {
-    color: #777;
-    font-size: 0.8rem;
-  }
-  
-  .announcement-content p {
-    margin-top: 0.5rem;
-    color: #333;
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-  .announcement-content .btn {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #000000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-  }
-  
+  max-width: 700px; /* Slightly wider */
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  transform: rotate(-1deg); /* Slight tilt */
+}
+
+.page-header h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2rem, 6vw, 3rem);
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.page-header p {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.announcement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.announcement-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 4px 4px 0px var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform: rotate(0.5deg); /* Slight default card tilt */
+}
+
+.announcement-card:hover {
+  transform: translateY(-5px) rotate(-0.5deg);
+  box-shadow: 6px 6px 0px var(--color-primary);
+}
+
+.announcement-img-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.announcement-img {
+  display: block; /* Remove extra space below image */
+  width: 100%;
+  height: 220px; /* Fixed height for consistency */
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.announcement-img:hover {
+  transform: scale(1.05);
+}
+
+.announcement-content {
+  padding: 1rem 1.2rem; /* More padding */
+}
+
+.announcement-content h2 {
+  font-family: 'Bebas Neue', sans-serif; /* Use theme heading font */
+  font-size: 1.6rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.announcement-content small {
+  font-family: 'Pixelify Sans', sans-serif; /* Pixel font for date */
+  color: #777;
+  font-size: 0.9rem;
+  display: block; /* Ensure it takes its own line */
+  margin-bottom: 0.5rem;
+}
+
+.announcement-content p {
+  margin-top: 0.5rem;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-family: 'General Sans', sans-serif;
+}
+
+.announcement-content .btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  /* Inherits base .btn styles, customize if needed */
+  background-color: var(--color-border);
+  color: #fff;
+  font-family: 'Anton', sans-serif; /* Different button font */
+  font-size: 1rem;
+  box-shadow: 2px 2px 0 var(--color-secondary);
+}
+.announcement-content .btn:hover {
+    background-color: var(--color-primary);
+    box-shadow: 3px 3px 0 var(--color-border);
+}

@@ -8,20 +8,24 @@
   <link rel="stylesheet" href="css/forum.css" />
 </head>
 <body>
-  <!-- Navbar -->
+  <!-- Navbar Placeholder -->
   <div id="navbar"></div>
 
   <main class="forum-container">
     <h1>Community Forum</h1>
-    <div id="message-list" class="message-list"></div>
+    <p style="text-align: center; font-family: 'Instrument Serif', serif; margin-bottom: 1.5rem;">Share ideas, ask questions, and connect!</p>
+    <div id="message-list" class="message-list">
+        <!-- Messages load here -->
+        <p style="text-align: center; color: #999;">Loading messages...</p>
+    </div>
     <form id="message-form" class="message-form">
-      <input type="text" id="username" placeholder="Your name" required />
-      <textarea id="message-input" placeholder="Write your message..." rows="3" required></textarea>
-      <button type="submit">Send</button>
+      <input type="text" id="username" placeholder="Your name (Be nice!)" required />
+      <textarea id="message-input" placeholder="Type your message here... hit Enter to think, Shift+Enter for new line?" rows="3" required></textarea>
+      <button type="submit" class="tinker-button">Post Message</button>
     </form>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer Placeholder -->
   <div id="footer"></div>
 
   <script src="js/main.js"></script>

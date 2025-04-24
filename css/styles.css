@@ -1,286 +1,821 @@
-/* Font Imports */
+/* Font Imports - More eclectic mix */
 @import "https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap";
 @import "https://api.fontshare.com/v2/css?f[]=general-sans@200,201,300,301,400,500,501,600,601,700,701&display=swap";
 @import "https://fonts.googleapis.com/css2?family=Anton&display=swap";
-@import "https://fonts.googleapis.com/css2?family=Anton&family=UnifrakturCook:wght@700&display=swap";
-@import "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap";
-@import "https://fonts.googleapis.com/css2?family=Fasthand&display=swap";
-@import "https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap";
-@import "https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap";
-@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Pixelify+Sans:wght@400..700&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+@import "https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap"; /* Blackletter */
+@import "https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap"; /* Tall Sans */
+@import "https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap"; /* Handwriting */
+@import "https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap"; /* Handwriting */
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap'); /* Pixel Font */
+
+/* CSS Variables for Theme Colors */
+:root {
+  --color-bg: #FAF2DE; /* Creamy paper background */
+  --color-text: #2E2E2E; /* Dark grey text */
+  --color-border: #000000;
+  --color-primary: #5F5CE5; /* Purple */
+  --color-secondary: #C3FF16; /* Lime Green */
+  --color-accent1: #FFE816; /* Yellow */
+  --color-accent2: #F79CFF; /* Pink */
+  --color-accent3: #FD9800; /* Orange */
+
+  /* Texture - Placeholder for actual image */
+  /* --texture-paper: url('../images/textures/paper-light.png'); */
+}
+
 /* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'General Sans', sans-serif;
-  background: #f9f9f9;
-  color: #333;
+  background-color: var(--color-bg);
+  /* background-image: var(--texture-paper); */ /* Uncomment if using texture */
+  color: var(--color-text);
+  line-height: 1.6;
+  overflow-x: hidden; /* Prevent horizontal scroll from rotated elements */
 }
 
-h1, h2, h3 {
-  margin: 0 0 10px;
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 0.8rem;
+  line-height: 1.3;
+  font-weight: normal; /* Override browser defaults */
 }
 
-/* Menu Button */
-.menu-btn {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 12px 24px;
+/* Use distinct fonts for different heading levels */
+h1 { font-family: 'Anton', sans-serif; font-size: 2.8rem; text-transform: uppercase; letter-spacing: 1px; }
+h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.5px; }
+h3 { font-family: 'Instrument Serif', serif; font-size: 1.5rem; }
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  text-decoration: underline;
+  color: darken(var(--color-primary), 10%);
+}
+
+/* General Button Style */
+.btn, button[type="submit"], .tinker-button {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--color-text);
+  background-color: var(--color-secondary); /* Lime Green */
+  border: 2px solid var(--color-border);
+  border-radius: 4px; /* Slightly less rounded */
   cursor: pointer;
-  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 0px var(--color-border); /* Hard shadow */
 }
 
-/* Full-Screen Menu Overlay */
+.btn:hover, button[type="submit"]:hover, .tinker-button:hover {
+  background-color: var(--color-accent1); /* Yellow on hover */
+  color: var(--color-border);
+  text-decoration: none;
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--color-border);
+}
+.btn:active, button[type="submit"]:active, .tinker-button:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--color-border);
+}
+
+
+/* --- Menu Styles --- */
+.menu-btn { /* Specific overrides if needed */
+  background-color: var(--color-border);
+  color: var(--color-bg);
+  box-shadow: 2px 2px 0px var(--color-secondary); /* Different shadow color */
+}
+.menu-btn:hover {
+  background-color: var(--color-accent2); /* Pink hover */
+  color: var(--color-border);
+  box-shadow: 3px 3px 0px var(--color-border);
+}
+
 .menu-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgb(255, 255, 255);
-  color: #fff;
-  display: none;
+  background-color: rgba(250, 242, 222, 0.95); /* Slightly transparent paper bg */
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--color-text);
+  display: none; /* Hidden by default */
   flex-direction: column;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .menu-overlay.active {
   display: flex;
+  opacity: 1;
 }
+
+.menu-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  width: 100%;
+  padding-bottom: 80px; /* Space for contact button */
+}
+
 .menu-nav .logo {
   position: absolute;
-  top: 5px;
+  top: -80px; /* Adjust as needed */
   left: 50%;
   transform: translateX(-50%);
+  margin-bottom: 2rem;
+  max-width: 120px;
 }
 
 .menu-nav .menu_l {
-  overflow: hidden;
-  white-space: nowrap;
-  border: #000 solid 2px;
-  padding: 10px 150px;
-  border-radius: 5px;
   display: block;
-  margin: 15px 0;
-  font-family: "Pixelify Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-size: 2rem;
-  color: #000000;
+  font-family: "Pixelify Sans", sans-serif; /* Pixel font for links */
+  font-size: clamp(1.5rem, 5vw, 2.5rem); /* Responsive font size */
+  color: var(--color-text);
   text-decoration: none;
-  background-color: #fff;
-  transition: background-image 0.2s ease-in-out;
+  padding: 0.5rem 2rem;
+  border: 2px solid var(--color-border);
+  background-color: #ffffff; /* White background for contrast */
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+  min-width: 250px;
+  max-width: 80%;
+  box-shadow: 3px 3px 0 var(--color-border);
+  transform: rotate(0deg); /* Base state */
 }
-/* Hover Images */
-.menu-nav .home:hover {
-  background-image: url('../images/index/home.jpg');
-  background-size: cover;
-  color: #fff;
+
+/* Playful Hover Effects */
+.menu-nav .menu_l:hover {
+  color: var(--color-bg);
+  background-color: var(--color-border);
+  transform: rotate(-2deg) scale(1.05); /* Tilt and scale */
+  box-shadow: 5px 5px 0 var(--color-secondary); /* Change shadow on hover */
+  text-decoration: none;
+  /* Specific background images removed for simplicity, focus on color/transform */
 }
-.menu-nav .announcements:hover{
-  background-image: url('../images/index/announcements.jpg');
-  background-size: cover;
-  color: #fff;
-}
-.menu-nav .events:hover {
-  background-image: url('../images/index/events.jpg');
-  background-size: cover;
-  color: #fff;
-}
-.menu-nav .resources:hover {
-  background-image: url('../images/index/resources.jpg');
-  background-size: cover;
-  color: #fff;
-}
-.menu-nav .forum:hover {
-  background-image: url('../images/index/forum.jpg');
-  background-size: cover;
-  color: #000;
-}
+
+.menu-nav .home:hover { background-color: var(--color-primary); box-shadow: 5px 5px 0 var(--color-accent1);}
+.menu-nav .announcements:hover { background-color: var(--color-accent3); box-shadow: 5px 5px 0 var(--color-accent2);}
+.menu-nav .events:hover { background-color: var(--color-secondary); box-shadow: 5px 5px 0 var(--color-primary); color: var(--color-text);}
+.menu-nav .resources:hover { background-color: var(--color-accent2); box-shadow: 5px 5px 0 var(--color-secondary);}
+.menu-nav .forum:hover { background-color: var(--color-accent1); box-shadow: 5px 5px 0 var(--color-primary); color: var(--color-text);}
+
 
 .menu-nav .contact-container {
   position: absolute;
-  bottom: 0px;
+  bottom: 20px; /* Position at bottom */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #ffffff;
-  padding: 10px 50%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .menu-nav .contact {
-  font-family: "Pixelify Sans", sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: 1.5rem;
   text-decoration: none;
-  display: block;
-  /* position: absolute; */
-  /* bottom: 0px; */
-  /* left: -100px; */
-  background-color: #000;
-  padding: 10px 20px;
+  background-color: var(--color-border);
+  padding: 10px 30px;
   border-radius: 5px;
-  color: #fff;
+  color: var(--color-bg);
+  border: 2px solid var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-accent1);
+  transition: all 0.2s ease;
 }
 
-/* Close Button */
+.menu-nav .contact:hover {
+  background-color: var(--color-accent1);
+  color: var(--color-border);
+  transform: rotate(2deg);
+  box-shadow: 3px 3px 0 var(--color-border);
+  text-decoration: none;
+}
+
 .menu-close {
   position: absolute;
   top: 20px;
   right: 30px;
   background: transparent;
   border: none;
+  font-family: 'Anton', sans-serif;
   font-size: 3rem;
-  color: #000000;
+  color: var(--color-text);
   cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.menu-close:hover {
+    transform: rotate(90deg) scale(1.1);
+    color: var(--color-primary);
 }
 
-/* Hero Section - Modified to work with metaball background */
+/* --- Ribbon Style --- */
+.ribbon {
+  overflow: hidden;
+  white-space: nowrap;
+  border-top: 2px solid var(--color-border);
+  border-bottom: 2px solid var(--color-border);
+  font-family: 'Instrument Serif', serif; /* More playful serif */
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--color-text);
+  background-color: var(--color-accent1); /* Yellow */
+  padding: 0.5rem 0;
+  transform: rotate(-1deg); /* Slight tilt */
+  margin: 1rem 0;
+  box-shadow: 0 2px 0 var(--color-border), 0 4px 0 var(--color-border); /* Double shadow */
+}
+.ribbon .quotes {
+  display: inline-block;
+  animation: ouroboros-scroll 20s linear infinite; /* Slower scroll */
+}
+@keyframes ouroboros-scroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+.ribbon .quotes span, .ribbon .quotes a { /* Use span for non-links */
+  display: inline-block;
+  padding: 0 1rem; /* More spacing */
+  font-weight: 600;
+}
+.ribbon .quotes span.separator { /* Style the separator */
+    color: var(--color-primary);
+    font-family: 'UnifrakturCook', cursive; /* Decorative font for separator */
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0 0.5rem;
+    vertical-align: middle;
+}
+
+
+/* --- Hero Section Base --- */
 .hero {
-  color: rgb(0, 0, 0);
-  padding: 100px 20px;
+  color: var(--color-text); /* Ensure text is readable on light bg */
+  min-height: 60vh; /* Adjust as needed */
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative; /* Needed for metaball container */
+  overflow: hidden; /* Needed for metaball container */
+  padding: 40px 20px;
+  background-color: var(--color-bg); /* Fallback if metaballs don't load */
 }
 
+/* Ensure hero content is above metaballs */
 .hero-content {
-  width: 100%;
+  position: relative;
+  z-index: 2; /* Above metaballs (z-index: 0) */
+  background: rgba(250, 242, 222, 0.7); /* Semi-transparent paper */
+  padding: 2rem;
+  border-radius: 10px;
+  border: 2px solid var(--color-border);
+  max-width: 800px; /* Limit width */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 5px 5px 0px var(--color-primary); /* Theme shadow */
 }
 
 #hero-title {
-  color: black;
+  color: var(--color-text);
   font-family: 'Anton', sans-serif;
-  font-size: 3rem;
+  font-size: clamp(2.5rem, 6vw, 4rem); /* Responsive size */
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
 }
 
 #hero-subtext {
-  color: black;
+  color: var(--color-text);
   font-family: 'Instrument Serif', serif;
-  font-size: 1.3rem;
-  margin-bottom: 20px;
+  font-size: clamp(1.1rem, 3vw, 1.4rem); /* Responsive size */
+  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.hero .btn {
-  padding: 12px 24px;
-  background: #0066ff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-family: 'Bebas Neue', sans-serif;
-  letter-spacing: 1px;
-}
-
-/* Ribbon */
-.ribbon {
-  overflow: hidden;
-  white-space: nowrap;
-  border: #000 solid 2px;
-  font-family: 'Instrument Serif', serif;
-  font-size: 1.8rem;
-  color: #000;
-  background-color: rgb(255, 238, 0);
-  height: 7vh;
-}
-.quotes {
-  display: inline-block;
-  animation: ouroboros-scroll 10s linear infinite;
-}
-@keyframes ouroboros-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-.quotes a {
-  display: inline-block;
-  padding: 0 5px;
-}
-
-/* About Section */
+/* --- About Section --- */
 .about {
   padding: 60px 20px;
   max-width: 900px;
-  margin: auto;
+  margin: 2rem auto;
   text-align: center;
+  background-color: rgba(255, 255, 255, 0.5); /* Slightly different bg */
+  border: 2px dashed var(--color-border); /* Dashed border */
+  border-radius: 10px;
+  transform: rotate(1deg); /* Opposite tilt to ribbon */
 }
 
 #about-title {
-  font-family: 'UnifrakturCook', cursive;
-  font-size: 2rem;
+  font-family: 'UnifrakturCook', cursive; /* Decorative Font */
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: var(--color-primary);
+  margin-bottom: 1rem;
 }
 
 #about-text {
-  font-family: 'Gochi Hand', cursive;
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-family: 'Gochi Hand', cursive; /* Handwriting font */
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  line-height: 1.7;
+  color: var(--color-text);
 }
 
-/* Highlights Section */
+/* --- Highlights Section --- */
 .highlights {
-  border-radius: 30px;
-  background-color: #b1abab;
+  border-radius: 15px; /* Slightly less rounded */
+  background-color: var(--color-secondary); /* Lime green background */
   padding: 50px 20px;
   max-width: 1000px;
-  margin: auto;
+  margin: 3rem auto;
   text-align: center;
+  border: 2px solid var(--color-border);
+  transform: rotate(-0.5deg); /* Yet another tilt */
+  box-shadow: 4px 4px 0 var(--color-accent2); /* Pink shadow */
 }
 
 #explore-title {
-  font-family: 'Fasthand', cursive;
-  font-size: 2.2rem;
+    font-family: 'Caveat', cursive; /* Playful handwriting */
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    color: var(--color-border);
+    margin-bottom: 1rem;
+    font-weight: bold;
 }
 
 .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 25px; /* Increased gap */
   margin-top: 30px;
 }
 
-.card {
-  background: white;
-  border: black solid 2px;
-
+/* --- Card Base Style (can be overridden per page) --- */
+.card, .tinker-card { /* Shared class for themed cards */
+  background: #fff; /* White paper */
+  border: 2px solid var(--color-border);
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 4px 4px 0px var(--color-border);
   padding: 20px;
-  width: 260px;
+  width: 280px; /* Slightly wider */
   text-decoration: none;
-  color: #333;
-  transition: transform 0.2s ease;
+  color: var(--color-text);
+  transition: all 0.2s ease-in-out;
+  display: flex; /* Use flex for consistent structure */
+  flex-direction: column;
+  transform: rotate(0.5deg); /* Slight default tilt */
 }
 
-.card:hover {
-  transform: translateY(-5px);
+.card:hover, .tinker-card:hover {
+  transform: translateY(-6px) rotate(-1deg); /* Lift and tilt more on hover */
+  box-shadow: 6px 6px 0px var(--color-primary); /* Change shadow color */
+  text-decoration: none;
 }
 
-.card-title {
+.card .card-inner { /* Optional inner container */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-title { /* Style for titles within cards */
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
 }
 
-.card-desc {
-  font-family: 'Caveat', cursive;
-  font-size: 1.1rem;
+.card-desc { /* Style for descriptions within cards */
+  font-family: 'General Sans', sans-serif;
+  font-size: 0.95rem;
+  flex-grow: 1; /* Pushes arrow down */
+  margin-bottom: 1rem;
 }
 
-/* Responsive */
+.card-arrow { /* Simple arrow for cards */
+    font-family: 'Anton', sans-serif;
+    font-size: 1.5rem;
+    align-self: flex-end;
+    color: var(--color-border);
+}
+
+/* --- Footer --- */
+#footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
+  border-top: 2px dashed var(--color-border); /* Dashed top border */
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+#dev {
+  padding: 10px;
+  text-decoration: none;
+  color: var(--color-text); /* Make it visible */
+  font-family: "Pixelify Sans", sans-serif; /* Pixel font */
+  font-size: 0.9rem;
+  display: inline-block; /* Needed for potential transforms */
+  transition: all 0.2s ease;
+}
+
+#dev:hover {
+    color: var(--color-primary);
+    transform: scale(1.1) rotate(3deg);
+}
+
+/* --- Responsive Adjustments --- */
 @media (max-width: 768px) {
-  #hero-title { font-size: 2.2rem; }
-  .hero { padding: 60px 15px; }
-  .hero-content { padding: 20px; }
-  .card { 
-    width: 100%;
-    max-width: 300px;
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.8rem; }
+  .card, .tinker-card {
+    width: 90%; /* Take more width */
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ribbon { font-size: 1.5rem; transform: rotate(0deg); } /* Straighten ribbon on mobile */
+  .highlights { transform: rotate(0deg); }
+  .about { transform: rotate(0deg); }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 1.8rem; }
+    .menu-nav .menu_l { min-width: 200px; font-size: 1.3rem; }
+    .ribbon { font-size: 1.2rem; }
+    #about-title { font-size: 1.8rem; }
+    #about-text { font-size: 1rem; }
+    #explore-title { font-size: 2rem; }
+    .card-title { font-size: 1.4rem; }
+    .card-desc { font-size: 0.9rem; }
+    .btn, button[type="submit"], .tinker-button { padding: 0.6rem 1.2rem; font-size: 1rem; }
+}
+
+/* Page Transition Styles (Basic Fade) */
+body {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+body.page-transition-exit {
+  opacity: 0;
+}
+body.page-transition-enter {
+  opacity: 0;
+}
+/* Ensure enter animation plays after load */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+body.page-transition-enter {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* Login Page Specific */
+.login-page {
+    max-width: 400px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background: #fff;
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    box-shadow: 5px 5px 0 var(--color-primary);
+    text-align: center;
+}
+
+.login-page h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#login-form input,
+#login-form select {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'General Sans', sans-serif;
+}
+
+#login-form button {
+    margin-top: 0.5rem;
+    width: 100%; /* Full width login button */
+}
+
+#login-error {
+    margin-top: 1rem;
+    min-height: 1.2em; /* Reserve space */
+}
+
+
+/* Dashboard Specific */
+.dashboard {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
+.dashboard h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-family: 'Anton', sans-serif;
+}
+
+.dashboard nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px dashed var(--color-border);
+    padding-bottom: 1.5rem;
+}
+
+.dashboard nav button {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 2px solid var(--color-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dashboard nav button:hover,
+.dashboard nav button.active /* Add class via JS if needed */ {
+    background: var(--color-accent1); /* Yellow active/hover */
+    color: var(--color-border);
+    transform: translateY(-2px);
+}
+
+#section-container {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 1.5rem;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    min-height: 300px;
+}
+
+#section-container h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+}
+
+#section-container form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #f0f0f0;
+    border-radius: 6px;
+}
+
+#section-container form input {
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex-grow: 1;
+    min-width: 150px; /* Prevent inputs getting too small */
+}
+
+#section-container form button {
+    padding: 0.6rem 1.2rem;
+    white-space: nowrap;
+}
+
+#section-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#section-container li {
+    background: #fff;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.8rem;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+#section-container li span { /* Adjust if using spans */
+    display: inline-block;
+    margin-right: 1rem;
+    flex-grow: 1; /* Allow text to take space */
+}
+
+#section-container li button.delete {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: 'General Sans', sans-serif;
+    transition: background 0.2s ease;
+}
+#section-container li button.delete:hover {
+    background: #cc0000;
+}
+
+
+/* 404 Page Specific */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh; /* Use min-height */
+  text-align: center;
+  padding: 0 20px;
+}
+.not-found h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(5rem, 20vw, 10rem); /* Huge responsive 404 */
+  margin-bottom: 0; /* Reduce space */
+  color: var(--color-primary); /* Theme color */
+  line-height: 1;
+  text-shadow: 3px 3px 0 var(--color-border), -3px -3px 0 var(--color-secondary); /* Tinker shadow */
+}
+.not-found p {
+  font-family: 'Instrument Serif', serif; /* Consistent serif */
+  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  margin-bottom: 2rem;
+  color: var(--color-text);
+}
+.not-found .btn {
+  /* Uses global .btn styles */
+  font-size: 1.2rem;
+  padding: 0.8rem 2rem;
+}
+
+/* --- Header / Navbar Styles --- */
+.site-header {
+  position: fixed; /* Fixed at the top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(250, 242, 222, 0.9); /* Theme background with slight transparency */
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-bottom: 2px solid var(--color-border);
+  padding: 0.5rem 1rem; /* Adjust padding */
+  z-index: 1000; /* Ensure it's above other content */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.navbar-container {
+  max-width: 1100px; /* Consistent max-width */
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo-link {
+    display: inline-block; /* Needed for transforms */
+    transition: transform 0.2s ease-out;
+}
+
+.navbar-logo {
+  height: 45px; /* Adjust logo size */
+  display: block; /* Prevents extra space below */
+}
+
+.navbar-logo-link:hover {
+    transform: rotate(-3deg) scale(1.05); /* Playful hover */
+    text-decoration: none;
+}
+
+/* Spacer div to prevent content from hiding behind fixed header */
+/* Adjust height based on final header height */
+.header-spacer {
+  height: 70px; /* Example height - MEASURE your final header height */
+}
+
+/* Ensure menu button style is applied */
+.site-header .menu-btn {
+  /* Styles inherited from global .btn and .menu-btn */
+  /* Add specific overrides here if needed */
+  padding: 0.6rem 1.2rem; /* Slightly smaller padding for header */
+  font-size: 1rem;
+}
+
+/* Responsive Header Adjustments */
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0.4rem 0.8rem;
+  }
+  .navbar-logo {
+    height: 40px;
+  }
+  .header-spacer {
+    height: 60px; /* Adjust for mobile */
+  }
+  .site-header .menu-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
 }
-#dev {
-  padding: 20px;
-  text-decoration: none; 
-  color: rgb(128, 128, 128); 
-  position: absolute; 
-  left: 50%; 
-  transform: translate(-50%);
-  font-family: "Pixelify Sans", sans-serif;
+
+/* --- Footer Styles --- */
+.site-footer {
+  padding: 2rem 1rem 1.5rem; /* Generous padding */
+  margin-top: 4rem;
+  text-align: center;
+  border-top: 3px dashed var(--color-border); /* Dashed border */
+  background-color: rgba(255, 255, 255, 0.4); /* Subtle background */
 }
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.footer-copyright {
+  font-family: 'General Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #555; /* Muted color */
+  margin-bottom: 1rem;
+}
+
+/* Style for the #dev link within the footer */
+.site-footer #dev {
+  font-family: "Pixelify Sans", sans-serif; /* Pixel font */
+  font-size: 1rem;
+  color: var(--color-text);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid transparent; /* For hover effect */
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  display: inline-block; /* Allow transforms */
+}
+
+.site-footer #dev:hover {
+  color: var(--color-primary);
+  background-color: var(--color-accent1); /* Yellow bg on hover */
+  border-color: var(--color-border);
+  text-decoration: none;
+  transform: rotate(2deg) scale(1.05);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+/* Optional Social Links Styling */
+.footer-social {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.social-link {
+  font-size: 1.5rem; /* Adjust icon size */
+  color: var(--color-text);
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-link:hover {
+  color: var(--color-primary);
+  transform: scale(1.2) rotate(-5deg);
+  text-decoration: none;
+}
+
+/* Add FontAwesome if using icons (ensure you link FA in your HTML head) */
+/* @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"); */

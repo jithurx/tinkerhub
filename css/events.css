@@ -1,66 +1,121 @@
 .events-section {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
-  .events-section h1 {
-    font-family: 'Anton', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .event-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  
-  .event-card {
-    border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    overflow: hidden;
+  max-width: 1100px; /* Wider */
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.events-section h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2.2rem, 6vw, 3.2rem);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--color-primary);
+}
+
+.event-list {
+  display: grid;
+  /* Responsive columns */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem; /* More gap */
+}
+
+.event-card {
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 4px 4px 0px var(--color-border); /* Tinker shadow */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid var(--color-border);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transform: rotate(-0.5deg); /* Default slight tilt */
+}
+
+.event-card:hover {
+    transform: translateY(-5px) rotate(0.5deg);
+    box-shadow: 6px 6px 0px var(--color-secondary); /* Lime shadow on hover */
+}
+
+/* Make the whole card clickable if it's a link (via JS or wrapping <a>) */
+.event-card a {
     display: flex;
     flex-direction: column;
-  }
-  
-  .event-img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-  }
-  
-  .event-content {
-    padding: 1rem;
-  }
-  
-  .event-content h2 {
-    font-family: 'Bebas Neue', sans-serif;
-    margin: 0 0 0.5rem;
-  }
-  
-  .event-content small {
-    color: #888;
-  }
-  
-  .event-content p {
-    margin-top: 0.5rem;
-    color: #444;
-  }
-  
-  #toggle-past-btn {
-    margin: 2rem auto;
-    display: block;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    background-color: #000;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+}
+
+.event-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 2px solid var(--color-border); /* Border below image */
+}
+
+.event-content {
+  padding: 1.2rem; /* More padding */
+  flex-grow: 1; /* Allow content to fill space */
+  display: flex;
+  flex-direction: column;
+}
+
+.event-content h2 {
+  font-family: 'Bebas Neue', sans-serif; /* Tall font for title */
+  font-size: 1.7rem;
+  margin: 0 0 0.5rem;
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.event-content small {
+  font-family: 'Pixelify Sans', sans-serif; /* Pixel font for date */
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.event-content p {
+  margin-top: 0.5rem;
+  color: #444;
+  font-size: 0.95rem;
+  flex-grow: 1; /* Push date down */
+}
+
+#toggle-past-btn {
+  margin: 3rem auto; /* More margin */
+  display: block;
+  /* Inherit from global button styles */
+  background-color: var(--color-accent2); /* Pink button */
+  color: var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+#toggle-past-btn:hover {
+    background-color: var(--color-primary);
     color: #fff;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  #past-events.hidden {
-    display: none;
-  }
+    box-shadow: 3px 3px 0 var(--color-border);
+}
+
+#past-events {
+    margin-top: 2rem;
+    border-top: 3px dashed var(--color-border); /* Separator for past events */
+    padding-top: 2rem;
+}
+
+#past-events.hidden {
+  display: none;
+}
+
+/* Style for the links wrapping past events */
+#past-events a {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Make link take up card space */
+}
+#past-events .event-card {
+    opacity: 0.85; /* Slightly fade past events */
+    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+#past-events .event-card:hover {
+    opacity: 1;
+}

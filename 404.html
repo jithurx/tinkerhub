@@ -3,58 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 - Page Not Found | TinkerHub Campus Community</title>
-  <!-- Combined Styles -->
-  <style>
-    .not-found {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 80vh;
-      text-align: center;
-      padding: 0 20px;
-    }
-    .not-found h1 {
-      font-family: 'Anton', sans-serif;
-      font-size: 6rem;
-      margin-bottom: 20px;
-      color: #000;
-    }
-    .not-found p {
-      font-family: 'General Sans', sans-serif;
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-      color: #555;
-    }
-    .not-found .btn {
-      padding: 12px 24px;
-      background-color: #000;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-family: 'Bebas Neue', sans-serif;
-      transition: background 0.2s;
-    }
-    .not-found .btn:hover {
-      background-color: #333;
-    }
-  </style>
+  <title>404 - Not Found | TinkerHub Campus</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <!-- Specific 404 styles are now in styles.css -->
 </head>
 <body>
-  <!-- Navbar -->
-  <div id="navbar"></div>
+  <!-- Navbar Placeholder -->
+  <div id="navbar">
+      <!-- You might want a simplified header here or load dynamically -->
+      <header style="padding: 1rem; text-align: center; border-bottom: 2px solid #000;">
+        <a href="index.html">
+            <img src="images/logo.png" alt="TinkerHub Logo" style="height: 40px;">
+        </a>
+      </header>
+  </div>
 
   <main class="not-found">
     <h1>404</h1>
-    <p>Oops! The page you’re looking for doesn’t exist.</p>
-    <a href="index.html" class="btn">Go Back Home</a>
+    <p>Oops! Looks like you took a wrong turn in the tinkerverse.</p>
+    <a href="index.html" class="btn tinker-button">Go Back Home</a>
   </main>
 
-  <!-- Footer -->
+  <!-- Footer Placeholder -->
   <div id="footer"></div>
 
-  <script src="js/main.js"></script>
+  <script>
+    // Very basic script if needed, e.g., for dynamic nav/footer loading
+    // For simplicity, assume static for 404 or handle in main.js if complex
+    // document.addEventListener('DOMContentLoaded', () => { /* Load nav/footer */ });
+  </script>
 </body>
 </html>

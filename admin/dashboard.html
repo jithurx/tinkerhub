@@ -2,8 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | TinkerHub Campus</title>
   <link rel="stylesheet" href="../css/styles.css" />
+  <!-- No specific dashboard.css needed if styles.css covers it -->
 </head>
 <body>
   <main class="dashboard">
@@ -12,9 +14,26 @@
       <button data-section="announcements">Announcements</button>
       <button data-section="events">Events</button>
       <button data-section="resources">Resources</button>
+      <!-- Add Logout Button -->
+      <button id="logout-btn" style="background-color: #ff4d4d; color: white; margin-left: auto;">Logout</button>
     </nav>
-    <section id="section-container"></section>
+    <section id="section-container">
+        <!-- Content loaded here -->
+        <p style="text-align: center; padding: 2rem; color: #777;">Select a section above to manage content.</p>
+    </section>
   </main>
+  <!-- Note: Path adjusted assuming admin files are in admin/ -->
   <script src="js/dashboard.js"></script>
+  <script>
+    // Basic logout functionality
+    const logoutBtn = document.getElementById('logout-btn');
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('role');
+            window.location.href = 'login.html';
+        });
+    }
+  </script>
 </body>
 </html>

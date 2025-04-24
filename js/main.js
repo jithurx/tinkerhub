@@ -171,3 +171,11 @@ function initPageTransitions() {
     }, 500);
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const yearSpan = document.getElementById('current-year');
+  if (yearSpan) {
+      yearSpan.textContent = new Date().getFullYear();
+  }
+  // ... other init code from main.js
+});

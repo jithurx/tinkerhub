@@ -8,17 +8,28 @@
   <link rel="stylesheet" href="css/events.css" />
 </head>
 <body>
+  <!-- Navbar Placeholder -->
   <div id="navbar"></div>
 
   <main class="events-section">
     <h1>Upcoming Events</h1>
-    <div id="upcoming-events" class="event-list"></div>
+    <div id="upcoming-events" class="event-list">
+        <p style="text-align: center; color: #777; grid-column: 1 / -1;">Loading upcoming events...</p>
+        <!-- Upcoming events loaded here -->
+    </div>
 
-    <button id="toggle-past-btn">Show Past Events</button>
-    <div id="past-events" class="event-list hidden"></div>
+    <button id="toggle-past-btn" class="tinker-button">Show Past Events</button>
+
+    <div id="past-events" class="event-list hidden">
+         <h2 style="font-family: 'Anton', sans-serif; font-size: 2rem; text-align: center; grid-column: 1 / -1; margin-top: 2rem;">Past Events</h2>
+         <p style="text-align: center; color: #777; grid-column: 1 / -1;">Loading past events...</p>
+        <!-- Past events loaded here -->
+    </div>
   </main>
 
+  <!-- Footer Placeholder -->
   <div id="footer"></div>
+
   <script src="js/main.js"></script>
   <script src="js/events.js"></script>
 </body>

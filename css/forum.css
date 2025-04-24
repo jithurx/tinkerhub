@@ -1,68 +1,106 @@
 .forum-container {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
-  .forum-container h1 {
-    font-family: 'Anton', sans-serif;
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  .message-list {
-    background: #f9f9f9;
-    border-radius: 8px;
-    padding: 1rem;
-    max-height: 400px;
-    overflow-y: auto;
-    margin-bottom: 1rem;
-  }
-  
-  .message-item {
-    margin-bottom: 1rem;
-  }
-  
-  .message-item .meta {
-    font-size: 0.85rem;
-    color: #555;
-    margin-bottom: 0.25rem;
-  }
-  
-  .message-item .text {
-    background: #fff;
-    padding: 0.75rem 1rem;
-    border-radius: 6px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  
-  .message-form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .message-form input,
-  .message-form textarea {
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-family: 'General Sans', sans-serif;
-  }
-  
-  .message-form button {
-    align-self: flex-end;
-    padding: 0.75rem 1.5rem;
-    background: #0066ff;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Bebas Neue', sans-serif;
-    letter-spacing: 0.5px;
-  }
-  
-  .message-form button:hover {
-    background: #0051cc;
-  }
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #fff; /* White container */
+  border: 2px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 5px 5px 0 var(--color-accent3); /* Orange shadow */
+}
+
+.forum-container h1 {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(2rem, 6vw, 2.8rem);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--color-primary);
+}
+
+.message-list {
+  background: var(--color-bg); /* Paper texture bg */
+  /* background-image: var(--texture-paper); */ /* Add texture if available */
+  border: 2px dashed var(--color-border); /* Dashed border */
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 450px; /* Taller */
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.05); /* Inner shadow */
+}
+
+.message-item {
+  margin-bottom: 1.2rem;
+  /* Add slight random rotation for scrapbook feel */
+  /* transform: rotate(calc( (var(--random-tilt, 0) - 0.5) * 2deg )); */ /* Needs JS to set --random-tilt */
+}
+
+.message-item .meta {
+  font-size: 0.8rem;
+  color: #555;
+  margin-bottom: 0.3rem;
+  font-family: 'Pixelify Sans', sans-serif; /* Pixel font for meta */
+}
+
+.message-item .meta strong {
+  font-weight: bold;
+  color: var(--color-primary);
+}
+
+.message-item .text {
+  background: #fff; /* White note paper */
+  padding: 0.8rem 1.2rem;
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+  border: 1px solid #eee;
+  font-family: 'Caveat', cursive; /* Handwriting font */
+  font-size: 1.15rem; /* Larger handwriting */
+  line-height: 1.5;
+  /* transform: rotate(-1deg); Optional subtle tilt */
+}
+
+/* Alternate background for messages */
+.message-item:nth-child(odd) .text {
+    background: #fffbeb; /* Pale yellow */
+}
+
+
+.message-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem; /* More gap */
+  margin-top: 1rem;
+  border-top: 2px solid var(--color-border);
+  padding-top: 1.5rem;
+}
+
+.message-form input,
+.message-form textarea {
+  padding: 0.8rem;
+  border: 2px solid #ccc; /* Thicker */
+  border-radius: 4px;
+  font-family: 'General Sans', sans-serif;
+  font-size: 1rem;
+}
+.message-form input:focus,
+.message-form textarea:focus {
+    outline: none;
+    border-color: var(--color-secondary); /* Lime focus */
+    box-shadow: 0 0 0 2px rgba(195, 255, 22, 0.4);
+}
+
+
+.message-form textarea {
+    resize: vertical; /* Allow vertical resize only */
+}
+
+.message-form button {
+  align-self: flex-end;
+  /* Inherit base styles */
+  background-color: var(--color-secondary); /* Lime button */
+  color: var(--color-border);
+  box-shadow: 2px 2px 0 var(--color-border);
+}
+
+.message-form button:hover {
+  background-color: var(--color-accent1); /* Yellow hover */
+}
