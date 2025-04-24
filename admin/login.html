@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <main class="login-page">
+    <h1>Admin / Student Login</h1>
+    <form id="login-form">
+      <input type="email" id="email"    placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <select id="role">
+        <option value="student">Student</option>
+        <option value="admin">Admin</option>
+      </select>
+      <button type="submit">Login</button>
+    </form>
+    <p id="login-error" style="color:red;"></p>
+  </main>
+  <script src="js/auth.js"></script>
+</body>
+</html>
