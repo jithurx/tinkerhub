@@ -3,54 +3,61 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | TinkerHub Campus</title>
+    <!-- Updated Title -->
+    <title>Login | TinkerHub Campus</title>
     <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="../css/styles.css" />
-    <!-- Add Favicon link if you have one -->
+    <!-- Favicon Placeholder -->
     <!-- <link rel="icon" href="../images/favicon.ico" type="image/x-icon"> -->
     <style>
-        /* Optional: Minor style adjustments specific to login if needed */
+        /* Reuse login page styles */
         .login-page {
             min-height: 80vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
+        /* Optional: Adjust max-width if needed */
+        .login-page { max-width: 420px; }
     </style>
 </head>
 <body>
-    <!-- Simplified Header for Login Page -->
+    <!-- Simplified Header -->
     <header style="padding: 1rem; text-align: center; border-bottom: 2px solid var(--color-border); background-color: rgba(250, 242, 222, 0.9);">
-        <a href="../index.html"> <!-- Link back to homepage -->
+        <a href="../index.html" aria-label="Back to Homepage"> <!-- Link back to homepage -->
             <img src="../images/logo.png" alt="TinkerHub Logo" style="height: 40px;">
         </a>
     </header>
 
-    <main class="login-page"> <!-- Container for login form -->
-        <h1>Admin / Staff Login</h1>
-        <p style="text-align: center; margin-bottom: 1.5rem; color: #555;">Enter your credentials to access the dashboard.</p>
+    <!-- Login Form Container -->
+    <main class="login-page">
+        <!-- Updated Heading -->
+        <h1>Member Login</h1>
+        <p style="text-align: center; margin-bottom: 1.5rem; color: #555;">Log in to access your profile or the admin dashboard.</p>
 
-        <form id="login-form">
-            <label for="email" class="sr-only">Email Address</label> <!-- Use sr-only for accessibility if label is visually hidden -->
+        <form id="login-form" novalidate> <!-- Added novalidate to rely on JS validation primarily -->
+            <label for="email" class="sr-only">Email Address</label>
             <input type="email" id="email" name="email" placeholder="Email Address" required aria-label="Email Address"/>
 
             <label for="password" class="sr-only">Password</label>
             <input type="password" id="password" name="password" placeholder="Password" required aria-label="Password"/>
 
-            <!-- Role selection is removed - backend determines role based on credentials -->
-            <!-- <select id="role" name="role"> ... </select> -->
-
             <button type="submit" class="tinker-button">Login</button>
         </form>
         <!-- Error message display area -->
         <p id="login-error" role="alert" aria-live="assertive" style="color:red; text-align: center; margin-top: 1rem; font-weight: bold; min-height: 1.2em;"></p>
-         <p style="text-align: center; margin-top: 1rem; font-size: 0.9em;">
+
+        <!-- Link to Signup page -->
+         <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9em;">
+            Don't have an account? <a href="../signup.html">Sign Up</a>
+        </p>
+        <p style="text-align: center; margin-top: 0.5rem; font-size: 0.9em;">
             <a href="../index.html">← Back to Homepage</a>
         </p>
     </main>
 
     <!-- Link to the authentication JavaScript file -->
-    <!-- Ensure the path is correct relative to admin/login.html -->
+    <!-- Path is relative to admin/login.html -->
     <script src="js/auth.js"></script>
 </body>
 </html>

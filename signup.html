@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | TinkerHub Campus</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Optional: Link a specific signup.css if needed -->
+    <!-- <link rel="stylesheet" href="css/signup.css"> -->
+     <!-- Favicon Placeholder -->
+    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
+     <style>
+         /* Reuse login page styles with adjustments */
+        .signup-page { /* Similar container to login */
+            max-width: 450px; margin: 4rem auto; padding: 2rem;
+            background: #fff; border: 2px solid var(--color-border);
+            border-radius: 8px; box-shadow: 5px 5px 0 var(--color-secondary); /* Lime shadow */
+            text-align: center;
+        }
+        .signup-page h1 { font-family: 'Anton', sans-serif; font-size: 1.8rem; margin-bottom: 1rem; color: var(--color-primary);}
+        #signup-form { display: flex; flex-direction: column; gap: 1rem; text-align: left; /* Align labels left */}
+        #signup-form label { font-weight: 500; font-size: 0.9em; margin-bottom: 0.2rem; display: block;}
+        #signup-form input { padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px; font-family: 'General Sans', sans-serif; width: 100%; box-sizing: border-box; }
+        #signup-form button { margin-top: 1rem; width: 100%; }
+        #signup-status { margin-top: 1rem; min-height: 1.2em; font-weight: bold; text-align: center; }
+        #signup-status.success { color: green; }
+        #signup-status.error { color: red; }
+        .login-link { margin-top: 1.5rem; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+     <!-- Simplified Header -->
+    <header style="padding: 1rem; text-align: center; border-bottom: 2px solid var(--color-border); background-color: rgba(250, 242, 222, 0.9);">
+        <a href="index.html"> <!-- Link back to homepage -->
+            <img src="images/logo.png" alt="TinkerHub Logo" style="height: 40px;">
+        </a>
+    </header>
+
+    <main class="signup-page">
+        <h1>Create Your Account</h1>
+        <p style="text-align: center; margin-bottom: 1.5rem; color: #555;">Join the TinkerHub NSSCE community!</p>
+
+        <form id="signup-form" novalidate> <!-- Disable default browser validation initially -->
+            <div class="form-group">
+                <label for="signup-name">Full Name:</label>
+                <input type="text" id="signup-name" name="name" required aria-label="Full Name">
+            </div>
+             <div class="form-group">
+                 <label for="signup-email">Email Address:</label>
+                <input type="email" id="signup-email" name="email" required aria-label="Email Address">
+            </div>
+             <div class="form-group">
+                 <label for="signup-password">Password:</label>
+                <input type="password" id="signup-password" name="password" required minlength="6" aria-label="Password (at least 6 characters)">
+                <small>Must be at least 6 characters long.</small>
+            </div>
+             <div class="form-group">
+                 <label for="signup-confirm-password">Confirm Password:</label>
+                <input type="password" id="signup-confirm-password" name="confirmPassword" required minlength="6" aria-label="Confirm Password">
+            </div>
+
+            <button type="submit" class="tinker-button">Sign Up</button>
+        </form>
+
+        <!-- Status message display area -->
+        <div id="signup-status" role="alert" aria-live="assertive"></div>
+
+        <p class="login-link">
+            Already have an account? <a href="admin/login.html">Log In</a>
+        </p>
+
+    </main>
+
+     <!-- Footer (Optional, or use dynamic loading) -->
+     <footer class="site-footer" style="margin-top: 3rem;">
+         <!-- Simple footer -->
+        <p>© <span id="current-year"></span> TinkerHub NSSCE</p>
+     </footer>
+
+
+     <script>
+         // Set year (could be in main.js if loaded)
+         const yearSpan = document.getElementById('current-year');
+         if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+     </script>
+     <!-- Link to the NEW signup JavaScript file -->
+     <script src="js/signup.js"></script>
+
+</body>
+</html>
