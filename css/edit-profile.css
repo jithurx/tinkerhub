@@ -1,0 +1,182 @@
+/* css/edit-profile.css */
+
+.edit-profile-container {
+    max-width: 700px;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    background-color: #fff;
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: 4px 4px 0px var(--color-accent1); /* Yellow shadow */
+}
+
+.edit-profile-title {
+    text-align: center;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: var(--color-primary);
+    margin-bottom: 1.5rem;
+}
+
+/* Inherit .form-status styles from styles.css */
+#edit-profile-status {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+#edit-profile-status p { margin: 0; } /* Remove default margin */
+#edit-profile-status.success { color: #198754; font-weight: bold; }
+#edit-profile-status.error { color: #dc3545; font-weight: bold; }
+
+
+#edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-section {
+    padding: 1.5rem;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+}
+
+.form-section h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+    color: var(--color-primary);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.4rem;
+    font-weight: 500;
+    font-family: 'General Sans', sans-serif;
+    font-size: 0.95rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="url"],
+.form-group input[type="number"],
+.form-group textarea {
+    padding: 0.7rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'General Sans', sans-serif;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(95, 92, 229, 0.2);
+}
+
+.form-group input[disabled] {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.form-group small {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin-top: 0.2rem;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Language Input Styling */
+#edit-language-list .language-item {
+    display: flex;
+    gap: 0.8rem;
+    align-items: center;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px dotted #eee;
+}
+#edit-language-list .language-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+     padding-bottom: 0;
+}
+
+#edit-language-list .language-item input[type="text"] {
+    flex-grow: 1; /* Language name takes more space */
+}
+#edit-language-list .language-item input[type="number"] {
+    width: 80px; /* Fixed width for proficiency */
+    flex-shrink: 0;
+}
+#edit-language-list .language-item button.remove-lang-btn {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    background-color: #ffcccc;
+    border: 1px solid #ffaaaa;
+    color: #a71d2a;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+#edit-language-list .language-item button.remove-lang-btn:hover {
+    background-color: #ffaaaa;
+}
+
+#add-language-btn {
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.form-actions .save-btn {
+    background-color: var(--color-secondary); /* Lime green */
+}
+.form-actions .save-btn:hover {
+    background-color: #a8dd12; /* Darker lime */
+}
+
+.form-actions .cancel-btn {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    color: #333;
+    box-shadow: none;
+}
+.form-actions .cancel-btn:hover {
+     background-color: #e0e0e0;
+     box-shadow: none;
+     transform: none;
+}
+
+/* Tinker Button Overrides */
+.secondary-btn { /* Example for Add Language button */
+    background-color: var(--color-accent1); /* Yellow */
+    color: var(--color-text);
+}
+.secondary-btn:hover {
+    background-color: #e4d614;
+}

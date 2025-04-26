@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile | TinkerHub Campus</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Link the NEW edit-profile specific CSS -->
+    <link rel="stylesheet" href="css/edit-profile.css">
+    <!-- Favicon Placeholder -->
+    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+     <!-- Navbar Placeholder (Consistent Header) -->
+    <div id="navbar">
+         <header class="site-header">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo-link" aria-label="Homepage">
+                    <img src="images/logo.png" alt="TinkerHub Campus Logo" class="navbar-logo">
+                </a>
+                <!-- Actions can be simplified or customized for this page -->
+                 <div class="header-actions">
+                     <a href="profile.html" class="btn tinker-button">View Profile</a>
+                     <button id="menu-open" class="btn menu-btn">Menu</button>
+                 </div>
+            </div>
+        </header>
+        <div class="header-spacer"></div>
+    </div>
+
+    <!-- Menu Overlay (Include if using dynamic loading, otherwise copy from index.html) -->
+    <div id="menu-overlay" class="menu-overlay">
+        <!-- ... Menu HTML ... -->
+         <nav class="menu-nav">
+            <a class="logo" href="https://tinkerhub.org/" target="_blank" rel="noopener noreferrer" aria-label="TinkerHub Main Website"><img src="images/logo.png" width="120" alt="TinkerHub Logo" /></a>
+            <a class="menu_l home" href="index.html">Home Base</a>
+            <a class="menu_l announcements" href="announcements.html">The Bulletin</a>
+            <a class="menu_l events" href="events.html">Happenings</a>
+            <a class="menu_l resources" href="resources.html">Tool Shed</a>
+            <a class="menu_l forum" href="forum.html">Idea Exchange</a>
+            <a class="menu_l profile" href="profile.html">My Profile</a>
+            <div class="contact-container"><a class="contact tinker-button" href="contact.html">Reach Out</a></div>
+        </nav>
+        <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
+    </div>
+
+
+    <main class="edit-profile-container">
+        <h1 class="edit-profile-title">Edit Your Profile</h1>
+
+        <!-- Status Message Area -->
+        <div id="edit-profile-status" class="form-status" role="alert" aria-live="assertive">
+            <p>Loading current profile...</p>
+        </div>
+
+        <!-- Edit Form -->
+        <form id="edit-profile-form" style="display: none;"> <!-- Hide until data loaded -->
+
+            <div class="form-section">
+                <h3>Basic Info</h3>
+                <div class="form-group">
+                    <label for="edit-name">Name:</label>
+                    <input type="text" id="edit-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-email">Email:</label>
+                    <input type="email" id="edit-email" name="email" disabled> <!-- Disable email editing -->
+                    <small>Email cannot be changed.</small>
+                </div>
+                 <div class="form-group">
+                    <label for="edit-profilePictureUrl">Profile Picture URL:</label>
+                    <input type="url" id="edit-profilePictureUrl" name="profilePictureUrl" placeholder="https://example.com/image.png">
+                </div>
+            </div>
+
+            <div class="form-section">
+                 <h3>About Me</h3>
+                 <div class="form-group">
+                     <label for="edit-about">Bio:</label>
+                     <textarea id="edit-about" name="about" rows="4" maxlength="500" placeholder="Tell us a bit about yourself..."></textarea>
+                 </div>
+            </div>
+
+             <div class="form-section">
+                <h3>Social Links</h3>
+                 <div class="form-group">
+                    <label for="edit-social-github">GitHub URL:</label>
+                    <input type="url" id="edit-social-github" name="socials.github" placeholder="https://github.com/username">
+                 </div>
+                  <div class="form-group">
+                    <label for="edit-social-linkedin">LinkedIn URL:</label>
+                    <input type="url" id="edit-social-linkedin" name="socials.linkedin" placeholder="https://linkedin.com/in/username">
+                 </div>
+                  <div class="form-group">
+                    <label for="edit-social-instagram">Instagram URL:</label>
+                    <input type="url" id="edit-social-instagram" name="socials.instagram" placeholder="https://instagram.com/username">
+                 </div>
+                 <!-- Add inputs for other socials if needed -->
+            </div>
+
+            <div class="form-section">
+                <h3>Programming Languages</h3>
+                <div id="edit-language-list">
+                    <!-- Language inputs dynamically added here -->
+                    <p>Loading languages...</p>
+                </div>
+                 <button type="button" id="add-language-btn" class="btn tinker-button secondary-btn">Add Language</button>
+            </div>
+
+
+            <div class="form-actions">
+                <button type="submit" class="btn tinker-button save-btn">Save Changes</button>
+                <a href="profile.html" class="btn tinker-button cancel-btn">Cancel</a>
+            </div>
+
+        </form>
+    </main>
+
+     <!-- Footer Placeholder -->
+    <div id="footer">
+         <footer class="site-footer">
+             <!-- ... Footer HTML ... -->
+         </footer>
+     </div>
+
+
+    <script src="js/main.js"></script>
+    <!-- Link the NEW edit-profile specific JS -->
+    <script src="js/edit-profile.js"></script>
+</body>
+</html>

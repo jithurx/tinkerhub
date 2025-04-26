@@ -1,0 +1,213 @@
+/* css/profile.css */
+
+.profile-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1.5rem 2rem;
+    background-color: #fff;
+    border: 2px solid var(--color-border);
+    border-radius: 10px;
+    box-shadow: 5px 5px 0px var(--color-primary);
+    /* Optional: Add slight rotation */
+    /* transform: rotate(-0.5deg); */
+}
+
+.profile-title {
+    text-align: center;
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    color: var(--color-primary);
+    margin-bottom: 2rem;
+    border-bottom: 2px dashed var(--color-border);
+    padding-bottom: 1rem;
+}
+
+/* Loading / Status Message */
+.profile-status {
+    text-align: center;
+    padding: 2rem;
+    font-style: italic;
+    color: #777;
+}
+.profile-status.error {
+    color: red;
+    font-weight: bold;
+}
+
+/* Header Section */
+.profile-header {
+    display: flex;
+    flex-wrap: wrap; /* Wrap on small screens */
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%; /* Circular picture */
+    object-fit: cover; /* Cover the area */
+    border: 3px solid var(--color-border);
+    box-shadow: 3px 3px 0 var(--color-secondary);
+    flex-shrink: 0; /* Prevent shrinking */
+}
+
+.profile-header-info {
+    flex-grow: 1; /* Take remaining space */
+}
+
+.profile-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    margin: 0 0 0.2rem;
+    color: var(--color-text);
+    line-height: 1.2;
+}
+
+.profile-email {
+    font-family: 'General Sans', sans-serif;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.8rem;
+    word-break: break-all; /* Prevent long emails overflowing */
+}
+
+.profile-socials {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.6rem; /* Icon size */
+}
+
+.profile-socials a {
+    color: var(--color-text);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-socials a:hover {
+    color: var(--color-primary);
+    transform: scale(1.1) rotate(-5deg);
+    text-decoration: none;
+}
+.profile-socials a .fa-github:hover { color: #333; }
+.profile-socials a .fa-linkedin:hover { color: #0A66C2; }
+.profile-socials a .fa-instagram:hover { color: #E4405F; }
+
+
+/* General Section Styling */
+.profile-section {
+    margin-bottom: 2rem;
+}
+
+.profile-section h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #eee;
+    color: var(--color-primary);
+}
+
+/* About Section */
+.profile-about p {
+    font-family: 'General Sans', sans-serif;
+    line-height: 1.7;
+    white-space: pre-wrap; /* Respect line breaks */
+}
+
+/* Languages Section */
+.language-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.language-list li {
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    padding: 0.8rem 1rem;
+    border-radius: 5px;
+    border: 1px solid #eee;
+}
+
+.language-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.4rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.language-name {
+    font-weight: 500;
+}
+
+.language-proficiency {
+    font-size: 0.9em;
+    color: #555;
+    font-family: 'General Sans', sans-serif;
+}
+
+.progress-bar-container {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    height: 12px; /* Adjust height */
+    overflow: hidden; /* Ensure inner bar stays contained */
+    border: 1px solid #ccc;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--color-secondary); /* Use theme color */
+    border-radius: 10px 0 0 10px; /* Round left edge */
+    transition: width 0.5s ease-in-out;
+    text-align: right;
+    line-height: 12px; /* Match container height */
+    font-size: 0.7em;
+    color: var(--color-text);
+    padding-right: 5px;
+    box-sizing: border-box;
+}
+
+/* Profile Actions */
+.profile-actions {
+    text-align: center;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed var(--color-border);
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.logout-btn {
+    background-color: #dc3545; /* Red color for logout */
+    color: white;
+}
+.logout-btn:hover {
+    background-color: #a71d2a;
+}
+
+
+/* Responsive */
+@media (max-width: 600px) {
+    .profile-container {
+        padding: 1rem 1.5rem;
+        margin: 1rem;
+    }
+    .profile-header {
+        flex-direction: column; /* Stack header items */
+        text-align: center;
+        gap: 1rem;
+    }
+    .profile-name { font-size: 1.8rem; }
+    .profile-email { font-size: 0.9rem; }
+    .profile-socials { justify-content: center; }
+    .profile-section h3 { font-size: 1.3rem; }
+}

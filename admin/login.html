@@ -1,27 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Login | TinkerHub Campus</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-  <!-- No specific login.css needed if styles.css covers it -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | TinkerHub Campus</title>
+    <!-- Link to the main stylesheet -->
+    <link rel="stylesheet" href="../css/styles.css" />
+    <!-- Add Favicon link if you have one -->
+    <!-- <link rel="icon" href="../images/favicon.ico" type="image/x-icon"> -->
+    <style>
+        /* Optional: Minor style adjustments specific to login if needed */
+        .login-page {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-  <main class="login-page">
-    <h1>Admin / Student Login</h1>
-    <form id="login-form">
-      <input type="email" id="email" name="email" placeholder="Email Address" required />
-      <input type="password" id="password" name="password" placeholder="Password" required />
-      <select id="role" name="role"> <!-- Added name attribute -->
-        <option value="student">Student</option>
-        <option value="admin">Admin</option>
-      </select>
-      <button type="submit">Login</button>
-    </form>
-    <p id="login-error" style="color:red;"></p>
-  </main>
-  <!-- Note: Path adjusted assuming admin files are in admin/ -->
-  <script src="js/auth.js"></script>
+    <!-- Simplified Header for Login Page -->
+    <header style="padding: 1rem; text-align: center; border-bottom: 2px solid var(--color-border); background-color: rgba(250, 242, 222, 0.9);">
+        <a href="../index.html"> <!-- Link back to homepage -->
+            <img src="../images/logo.png" alt="TinkerHub Logo" style="height: 40px;">
+        </a>
+    </header>
+
+    <main class="login-page"> <!-- Container for login form -->
+        <h1>Admin / Staff Login</h1>
+        <p style="text-align: center; margin-bottom: 1.5rem; color: #555;">Enter your credentials to access the dashboard.</p>
+
+        <form id="login-form">
+            <label for="email" class="sr-only">Email Address</label> <!-- Use sr-only for accessibility if label is visually hidden -->
+            <input type="email" id="email" name="email" placeholder="Email Address" required aria-label="Email Address"/>
+
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required aria-label="Password"/>
+
+            <!-- Role selection is removed - backend determines role based on credentials -->
+            <!-- <select id="role" name="role"> ... </select> -->
+
+            <button type="submit" class="tinker-button">Login</button>
+        </form>
+        <!-- Error message display area -->
+        <p id="login-error" role="alert" aria-live="assertive" style="color:red; text-align: center; margin-top: 1rem; font-weight: bold; min-height: 1.2em;"></p>
+         <p style="text-align: center; margin-top: 1rem; font-size: 0.9em;">
+            <a href="../index.html">← Back to Homepage</a>
+        </p>
+    </main>
+
+    <!-- Link to the authentication JavaScript file -->
+    <!-- Ensure the path is correct relative to admin/login.html -->
+    <script src="js/auth.js"></script>
 </body>
 </html>

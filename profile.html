@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | TinkerHub Campus</title>
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Profile Specific Styles -->
+    <link rel="stylesheet" href="css/profile.css">
+    <!-- Font Awesome for Social Icons (Optional) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+     <!-- Favicon Placeholder -->
+    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
+</head>
+<body>
+    <!-- Navbar Placeholder (Load dynamically or use static) -->
+    <div id="navbar">
+         <!-- Start Static Navbar Example (Include Login/Admin Button) -->
+        <header class="site-header">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo-link" aria-label="Homepage">
+                    <img src="images/logo.png" alt="TinkerHub Campus Logo" class="navbar-logo">
+                </a>
+                <div class="header-actions">
+                     <a href="admin/login.html" class="btn tinker-button login-btn">Login / Admin</a>
+                     <button id="menu-open" class="btn menu-btn">Menu</button>
+                </div>
+            </div>
+        </header>
+        <div class="header-spacer"></div>
+        <!-- End Static Navbar Example -->
+    </div>
+
+     <!-- Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay">
+        <!-- ... (Include the same menu overlay HTML as in index.html) ... -->
+        <nav class="menu-nav">
+            <a class="logo" href="https://tinkerhub.org/" target="_blank" rel="noopener noreferrer" aria-label="TinkerHub Main Website"><img src="images/logo.png" width="120" alt="TinkerHub Logo" /></a>
+            <a class="menu_l home" href="index.html">Home Base</a>
+            <a class="menu_l announcements" href="announcements.html">The Bulletin</a>
+            <a class="menu_l events" href="events.html">Happenings</a>
+            <a class="menu_l resources" href="resources.html">Tool Shed</a>
+            <a class="menu_l forum" href="forum.html">Idea Exchange</a>
+            <!-- Add Profile Link if logged in? (Requires JS logic) -->
+            <a class="menu_l profile active" href="profile.html">My Profile</a>
+            <div class="contact-container"><a class="contact tinker-button" href="contact.html">Reach Out</a></div>
+        </nav>
+        <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
+    </div>
+
+    <main class="profile-container">
+        <h1 class="profile-title">My Profile</h1>
+
+        <!-- Loading State / Error Message -->
+        <div id="profile-status" class="profile-status" role="status">
+            <p>Loading profile data...</p>
+        </div>
+
+        <!-- Profile Content Area (Populated by JS) -->
+        <div id="profile-content" class="profile-content" style="display: none;"> <!-- Hide until loaded -->
+            <div class="profile-header">
+                <img id="profile-pic" src="images/default-avatar.png" alt="Profile Picture" class="profile-picture">
+                <div class="profile-header-info">
+                    <h2 id="profile-name" class="profile-name">Student Name</h2>
+                    <p id="profile-email" class="profile-email">student@example.com</p>
+                    <div id="profile-socials" class="profile-socials">
+                        <!-- Social links added here -->
+                    </div>
+                </div>
+            </div>
+
+            <section class="profile-section profile-about">
+                <h3>About Me</h3>
+                <p id="profile-about-text">Loading...</p>
+            </section>
+
+            <section class="profile-section profile-languages">
+                <h3>Programming Languages</h3>
+                <ul id="language-list" class="language-list">
+                    <!-- Language items added here -->
+                    <li>Loading languages...</li>
+                </ul>
+            </section>
+
+             <!-- Optional: Edit Profile Button -->
+             <div class="profile-actions">
+                <!-- This button should now link to the edit page -->
+                <a href="edit-profile.html" id="edit-profile-btn" class="btn tinker-button">Edit Profile</a>
+                <button id="logout-btn" class="btn tinker-button logout-btn">Logout</button>
+             </div>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer">
+         <!-- Start Static Footer Example -->
+        <footer class="site-footer">
+            <div class="footer-container">
+                <p class="footer-copyright">© <span id="current-year"></span> TinkerHub NSSCE Campus Community</p>
+                <div class="footer-credits">
+                    <a href="https://jithu.dev/" id="dev" target="_blank" rel="noopener noreferrer">crafted by @jithu</a>
+                </div>
+            </div>
+        </footer>
+        <!-- End Static Footer Example -->
+    </div>
+
+    <!-- Load Main JS first, then Profile JS -->
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

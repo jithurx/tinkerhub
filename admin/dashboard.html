@@ -1,39 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard | TinkerHub Campus</title>
-  <link rel="stylesheet" href="../css/styles.css" />
-  <!-- No specific dashboard.css needed if styles.css covers it -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | TinkerHub Campus</title>
+    <!-- Link to the main stylesheet -->
+    <link rel="stylesheet" href="../css/styles.css" />
+     <!-- Add Favicon link if you have one -->
+    <!-- <link rel="icon" href="../images/favicon.ico" type="image/x-icon"> -->
+     <style>
+        /* Optional: Minor style adjustments specific to dashboard */
+        .dashboard h1 { margin-top: 1rem; }
+        .dashboard nav { flex-wrap: wrap; } /* Allow buttons to wrap on smaller screens */
+        .form-group { display: flex; flex-direction: column; gap: 0.3rem; flex-basis: calc(50% - 0.5rem); /* Two columns layout */ }
+        .form-group label { font-weight: 500; font-size: 0.9em; }
+        #create-form { flex-direction: row; align-items: flex-end; /* Align button with inputs */ }
+        #create-form button { margin-top: 1rem; /* Add space above button */ }
+        .item-list { margin-top: 1.5rem; }
+        .item-details span { display: block; /* Put each detail on new line */ margin-bottom: 0.2rem; font-size: 0.9em; }
+        .item-details strong { color: var(--color-primary); }
+        .item-actions { margin-left: auto; /* Push actions to the right */ white-space: nowrap; }
+        .dashboard li { align-items: flex-start; } /* Align items top */
+
+         @media (max-width: 600px) {
+             .form-group { flex-basis: 100%; } /* Full width inputs on small screens */
+         }
+    </style>
 </head>
 <body>
-  <main class="dashboard">
-    <h1>Admin Dashboard</h1>
-    <nav>
-      <button data-section="announcements">Announcements</button>
-      <button data-section="events">Events</button>
-      <button data-section="resources">Resources</button>
-      <!-- Add Logout Button -->
-      <button id="logout-btn" style="background-color: #ff4d4d; color: white; margin-left: auto;">Logout</button>
-    </nav>
-    <section id="section-container">
-        <!-- Content loaded here -->
-        <p style="text-align: center; padding: 2rem; color: #777;">Select a section above to manage content.</p>
-    </section>
-  </main>
-  <!-- Note: Path adjusted assuming admin files are in admin/ -->
-  <script src="js/dashboard.js"></script>
-  <script>
-    // Basic logout functionality
-    const logoutBtn = document.getElementById('logout-btn');
-    if(logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('role');
-            window.location.href = 'login.html';
-        });
-    }
-  </script>
+    <!-- Simple Dashboard Header -->
+     <header style="padding: 0.8rem 1rem; text-align: center; border-bottom: 2px solid var(--color-border); background-color: rgba(250, 242, 222, 0.9); display: flex; justify-content: space-between; align-items: center;">
+        <a href="../index.html"> <!-- Link back to homepage -->
+            <img src="../images/logo.png" alt="TinkerHub Logo" style="height: 35px;">
+        </a>
+        <span style="font-family: 'Anton', sans-serif; font-size: 1.3rem;">Admin Dashboard</span>
+        <button id="logout-btn" class="btn tinker-button" style="background-color: #dc3545; color: white; padding: 0.4rem 0.8rem; font-size: 0.9rem;">Logout</button>
+    </header>
+
+    <main class="dashboard">
+        <!-- Navigation between manageable sections -->
+        <nav>
+            <button data-section="announcements" class="tinker-button">Announcements</button>
+            <button data-section="events" class="tinker-button">Events</button>
+            <button data-section="resources" class="tinker-button">Resources</button>
+            <!-- Add buttons for other sections like Users or Forum Messages if needed -->
+        </nav>
+
+        <!-- Container where section content (forms, lists) will be loaded -->
+        <section id="section-container">
+            <!-- Initial message or loading indicator -->
+            <p style="text-align: center; padding: 3rem; color: #777;">Select a section above to manage content.</p>
+        </section>
+    </main>
+
+    <!-- Link to the dashboard JavaScript file -->
+     <!-- Ensure the path is correct relative to admin/dashboard.html -->
+    <script src="js/dashboard.js"></script>
+
+    <!-- Note: The logout logic is now part of dashboard.js -->
 </body>
 </html>
