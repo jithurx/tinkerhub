@@ -1,165 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TinkerHub NSSCE Campus Community</title> <!-- Updated Title -->
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/metaball.css" />
-  <!-- Fonts preconnect/preload if needed -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Included fonts are now in styles.css @import -->
-  <meta name="description" content="TinkerHub NSSCE Campus Community - A platform for students to learn, collaborate, and grow together in a vibrant, creative environment." />
-  <!-- Add Favicon -->
-  <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TinkerHub NSSCE Campus Community | Home</title> <!-- Specific Title -->
+    <!-- CSS Links -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/metaball.css" />
+    <!-- Preconnect for Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Included fonts are now in styles.css @import -->
+    <!-- Meta Description -->
+    <meta name="description" content="Welcome to the TinkerHub NSSCE Playground! Join our vibrant campus community to learn, collaborate, innovate, and build awesome things together." />
+    <!-- Favicon Placeholder -->
+    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
+    <style>
+        /* Optional: Style to space out buttons in header */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem; /* Adjust spacing */
+        }
+    </style>
 </head>
 <body>
-  <!-- Navbar Placeholder: Assumes main.js or another script injects this -->
-  <div id="navbar">
-      <!-- Example Static Navbar (Replace with dynamic loading if preferred) -->
-      <header style="padding: 1rem; background: rgba(255,255,255,0.8); border-bottom: 2px solid black; position: fixed; width: 100%; top: 0; z-index: 1000;">
-          <div style="max-width: 1100px; margin: auto; display: flex; justify-content: space-between; align-items: center;">
-              <a href="index.html">
-                  <img src="images/logo.png" alt="TinkerHub Logo" style="height: 40px;">
-              </a>
-              <button id="menu-open" class="btn menu-btn">Menu</button>
-          </div>
-      </header>
-      <div style="height: 70px;"></div> <!-- Spacer for fixed header -->
-  </div>
-
-  <!-- Menu Overlay -->
-  <div id="menu-overlay" class="menu-overlay">
-    <nav class="menu-nav">
-      <a class="logo" href="https://tinkerhub.org/" target="_blank" rel="noopener noreferrer">
-        <img src="images/logo.png" width="120" alt="TinkerHub Logo" /> <!-- Adjusted size -->
-      </a>
-      <a class="menu_l home" href="index.html">Home</a>
-      <a class="menu_l announcements" href="announcements.html">Announcements</a>
-      <a class="menu_l events" href="events.html">Happenings</a>
-      <a class="menu_l resources" href="resources.html">Tool Shed</a>
-      <a class="menu_l forum" href="forum.html">Forum</a>
-      <div class="contact-container">
-        <a class="contact tinker-button" href="contact.html">Reach Out</a>
-      </div>
-    </nav>
-    <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
-  </div>
-
-  <!-- Hero Section with Metaball Animation -->
-  <section class="hero">
-    <div class="metaball-container" id="metaball-container"></div>
-    <div class="hero-content">
-      <h1 id="hero-title">Welcome to the<br>TinkerHub NSSCE Playground!</h1> <!-- Updated Title -->
-      <p id="hero-subtext">Where ideas spark, code flows, and communities connect. Let's build something awesome together!</p>
-      <!-- Menu button already in static header now -->
-      <!-- <button id="menu-open" class="btn menu-btn">Explore <span class="menu-icon">→</span></button> -->
-       <a href="#about" class="btn tinker-button" style="background-color: var(--color-primary); color: white; box-shadow: 2px 2px 0 var(--color-secondary);">Learn More ↓</a>
+    <!-- Navbar Placeholder: Assumes main.js or another script injects this -->
+    <div id="navbar">
+        <!-- Example Static Navbar (Replace with dynamic loading if preferred) -->
+        <!-- Use site-header class defined in styles.css -->
+        <header class="site-header">
+            <div class="navbar-container">
+                <a href="index.html" class="navbar-logo-link" aria-label="Homepage">
+                    <img src="images/logo.png" alt="TinkerHub Campus Logo" class="navbar-logo">
+                </a>
+                <!-- Actions Container -->
+                <div class="header-actions">
+                    <!-- Login/Admin link (shown when logged out by default) -->
+                    <a href="admin/login.html" id="header-login-link" class="btn tinker-button login-btn">Login / Admin</a>
+                    <!-- Profile link (hidden by default, shown when logged in) -->
+                    <a href="profile.html" id="header-profile-link" class="btn tinker-button profile-btn" style="display: none;">My Profile</a>
+                    <!-- Existing Menu Button -->
+                    <button id="menu-open" class="btn menu-btn">Menu</button>
+                </div>
+            </div>
+        </header>
+        <div class="header-spacer"></div> <!-- Spacer for fixed header -->
     </div>
-  </section>
 
-  <!-- Banner / Ribbon -->
-  <div class="ribbon">
-    <div class="quotes">
-      <span>skills pay the bills</span> <span class="separator">✦</span>
-      <span>coding is a superpower</span> <span class="separator">✦</span>
-      <span>don’t fly solo</span> <span class="separator">✦</span>
-      <span>be kind</span> <span class="separator">✦</span>
-      <span>// REPEAT //</span> <span class="separator">✦</span>
-      <span>skills pay the bills</span> <span class="separator">✦</span>
-      <span>coding is a superpower</span> <span class="separator">✦</span>
-      <span>don’t fly solo</span> <span class="separator">✦</span>
-      <span>be kind</span> <span class="separator">✦</span>
+    <!-- Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay">
+        <nav class="menu-nav">
+            <a class="logo" href="https://tinkerhub.org/" target="_blank" rel="noopener noreferrer" aria-label="TinkerHub Main Website">
+                <img src="images/logo.png" width="120" alt="TinkerHub Logo" /> <!-- Adjusted size -->
+            </a>
+            <a class="menu_l home" href="index.html">Home Base</a>
+            <a class="menu_l announcements" href="announcements.html">The Bulletin</a>
+            <a class="menu_l events" href="events.html">Happenings</a>
+            <a class="menu_l resources" href="resources.html">Tool Shed</a>
+            <a class="menu_l forum" href="forum.html">Idea Exchange</a>
+            <!-- Profile link (hidden by default, shown when logged in) -->
+            <a class="menu_l profile" id="menu-profile-link" href="profile.html" style="display: none;">My Profile</a>
+            <!-- Login link (shown by default, hidden when logged in) -->
+            <a class="menu_l login" id="menu-login-link" href="admin/login.html">Login / Admin</a>
+            <!-- Contact Button Container -->
+            <div class="contact-container">
+                <a class="contact tinker-button" href="contact.html">Reach Out</a>
+            </div>
+        </nav>
+        <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
     </div>
-  </div>
 
-  <!-- About Section -->
-  <section class="about" id="about"> <!-- Added ID for scroll link -->
-    <div class="container">
-      <h2 id="about-title">Who Are We?</h2>
-      <p id="about-text">
-        We're the NSSCE chapter of TinkerHub! A bustling hive of students passionate about tech, making, and learning by doing. We believe in breaking things, fixing them, sharing knowledge freely, and having a ton of fun while we're at it. Join the organized chaos!
-      </p>
+    <!-- Hero Section with Metaball Animation -->
+    <section class="hero">
+        <div class="metaball-container" id="metaball-container"></div>
+        <div class="hero-content">
+            <h1 id="hero-title">Welcome to the<br>TinkerHub NSSCE Playground!</h1> <!-- Updated Title -->
+            <p id="hero-subtext">Where ideas spark, code flows, and communities connect. Let's build something awesome together!</p>
+             <a href="#about" class="btn tinker-button hero-learn-more-btn">Learn More ↓</a>
+        </div>
+    </section>
+
+    <!-- Banner / Ribbon -->
+    <div class="ribbon">
+        <div class="quotes">
+            <span>skills pay the bills</span> <span class="separator">✦</span>
+            <span>coding is a superpower</span> <span class="separator">✦</span>
+            <span>don’t fly solo</span> <span class="separator">✦</span>
+            <span>be kind</span> <span class="separator">✦</span>
+            <span>// REPEAT //</span> <span class="separator">✦</span>
+            <span>skills pay the bills</span> <span class="separator">✦</span>
+            <span>coding is a superpower</span> <span class="separator">✦</span>
+            <span>don’t fly solo</span> <span class="separator">✦</span>
+            <span>be kind</span> <span class="separator">✦</span>
+        </div>
     </div>
-  </section>
 
-  <!-- Highlights Section -->
-  <section class="highlights">
-    <div class="container">
-      <h2 id="explore-title">Dive In!</h2>
-      <div class="cards">
-        <a href="announcements.html" class="card tinker-card">
-          <div class="card-inner">
-            <h3 class="card-title">The Bulletin</h3>
-            <p class="card-desc">Catch the latest news, shoutouts, and opportunities buzzing in our community.</p>
-            <span class="card-arrow">→</span>
-          </div>
-        </a>
-        <a href="events.html" class="card tinker-card">
-          <div class="card-inner">
-            <h3 class="card-title">Happenings</h3>
-            <p class="card-desc">Workshops, hack nights, talks & more! Find out what's coming up.</p>
-            <span class="card-arrow">→</span>
-          </div>
-        </a>
-        <a href="resources.html" class="card tinker-card">
-          <div class="card-inner">
-            <h3 class="card-title">Tool Shed</h3>
-            <p class="card-desc">Grab handy guides, learning links, and useful tools shared by tinkerers.</p>
-            <span class="card-arrow">→</span>
-          </div>
-        </a>
-      </div>
+    <!-- About Section -->
+    <section class="about" id="about"> <!-- Added ID for scroll link -->
+        <div class="container">
+            <h2 id="about-title">Who Are We?</h2>
+            <p id="about-text">
+                We're the NSSCE chapter of TinkerHub! A bustling hive of students passionate about tech, making, and learning by doing. We believe in breaking things (sometimes), fixing them (usually), sharing knowledge freely, and having a ton of fun while we're at it. Join the organized chaos!
+            </p>
+        </div>
+    </section>
+
+    <!-- Highlights Section -->
+    <section class="highlights">
+        <div class="container">
+            <h2 id="explore-title">Dive In!</h2>
+            <div class="cards">
+                <a href="announcements.html" class="card tinker-card">
+                    <div class="card-inner">
+                        <h3 class="card-title">The Bulletin</h3>
+                        <p class="card-desc">Catch the latest news, shoutouts, and opportunities buzzing in our community.</p>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+                <a href="events.html" class="card tinker-card">
+                    <div class="card-inner">
+                        <h3 class="card-title">Happenings</h3>
+                        <p class="card-desc">Workshops, hack nights, talks & more! Find out what's coming up.</p>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+                <a href="resources.html" class="card tinker-card">
+                    <div class="card-inner">
+                        <h3 class="card-title">Tool Shed</h3>
+                        <p class="card-desc">Grab handy guides, learning links, and useful tools shared by tinkerers.</p>
+                        <span class="card-arrow">→</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Placeholder -->
+    <div id="footer">
+        <!-- Example Static Footer -->
+        <footer class="site-footer">
+             <div class="footer-container">
+                <p class="footer-copyright">© <span id="current-year">2024</span> TinkerHub NSSCE Campus Community</p> <!-- Year updated by JS -->
+                <div class="footer-credits">
+                    <a href="https://jithu.dev/" id="dev" target="_blank" rel="noopener noreferrer">
+                        crafted by @jithu
+                    </a>
+                </div>
+            </div>
+        </footer>
     </div>
-  </section>
 
-  <!-- Footer Placeholder -->
-  <div id="footer">
-      <!-- Example Static Footer -->
-      <footer style="padding: 2rem 1rem; text-align: center; border-top: 2px dashed #000; margin-top: 3rem;">
-          <p style="font-family: 'General Sans', sans-serif; margin-bottom: 1rem;">© 2024 TinkerHub NSSCE Campus Community</p>
-          <a href="https://jithu.dev/" id="dev" target="_blank" rel="noopener noreferrer">
-              crafted by @jithu
-          </a>
-           <!-- Add Social Links maybe -->
-      </footer>
-  </div>
+    <!-- Load JavaScript -->
+    <script src="js/main.js"></script> <!-- Main JS needs to handle showing/hiding login/profile links -->
+    <script src="js/metaball.js"></script>
 
-  <!-- Load JavaScript -->
-  <script src="js/main.js"></script>
-  <script src="js/metaball.js"></script>
+    <!-- Optional - Initialization script -->
+    <script>
+        // Example: Add logic here or in main.js to check login status and toggle buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            const headerLoginLink = document.getElementById('header-login-link');
+            const headerProfileLink = document.getElementById('header-profile-link');
+            const menuLoginLink = document.getElementById('menu-login-link');
+            const menuProfileLink = document.getElementById('menu-profile-link');
 
-  <!-- Optional - Preload the metaball animation for smoother startup -->
-  <script>
-    // Basic Navbar/Footer Injection Placeholder Logic (if not using a build tool)
-    // async function loadComponent(id, url) {
-    //     const target = document.getElementById(id);
-    //     if (target) {
-    //         try {
-    //             const response = await fetch(url);
-    //             if (response.ok) {
-    //                 target.innerHTML = await response.text();
-    //                 if (id === 'navbar') {
-    //                   // Re-initialize menu toggle AFTER navbar is loaded
-    //                   setTimeout(initMenuToggle, 0);
-    //                 }
-    //             } else { console.error(`Failed to load ${url}`); }
-    //         } catch (error) { console.error(`Error fetching ${url}:`, error); }
-    //     }
-    // }
+            if (token) { // User is logged in
+                if(headerLoginLink) headerLoginLink.style.display = 'none';
+                if(headerProfileLink) headerProfileLink.style.display = 'inline-block'; // Or 'flex' if needed
+                if(menuLoginLink) menuLoginLink.style.display = 'none';
+                if(menuProfileLink) menuProfileLink.style.display = 'block'; // Menu links are block
+            } else { // User is logged out
+                if(headerLoginLink) headerLoginLink.style.display = 'inline-block';
+                if(headerProfileLink) headerProfileLink.style.display = 'none';
+                if(menuLoginLink) menuLoginLink.style.display = 'block';
+                if(menuProfileLink) menuProfileLink.style.display = 'none';
+            }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // Example of dynamic loading (uncomment and adjust paths if using)
-      // loadComponent('navbar', 'components/navbar.html');
-      // loadComponent('footer', 'components/footer.html');
+            // Set current year in footer (Can also be in main.js)
+            const yearSpan = document.getElementById('current-year');
+            if (yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
 
-      // Force reflow for metaball init
-      const metaballContainer = document.getElementById('metaball-container');
-      if (metaballContainer) {
-        void metaballContainer.offsetWidth;
-      }
-    });
-  </script>
+            // Force reflow for metaball init (Good practice)
+            const metaballContainer = document.getElementById('metaball-container');
+            if (metaballContainer) {
+                void metaballContainer.offsetWidth;
+            }
+
+            // Dynamic component loading (optional)
+            // loadComponent('navbar', 'components/navbar.html');
+            // loadComponent('footer', 'components/footer.html');
+        });
+    </script>
 </body>
 </html>

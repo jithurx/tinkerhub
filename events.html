@@ -1,36 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Events | TinkerHub Campus Community</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/events.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events | TinkerHub Campus Community</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Link events specific CSS -->
+    <link rel="stylesheet" href="css/events.css" />
+     <!-- Favicon Placeholder -->
+    <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
 </head>
 <body>
-  <!-- Navbar Placeholder -->
-  <div id="navbar"></div>
-
-  <main class="events-section">
-    <h1>Upcoming Events</h1>
-    <div id="upcoming-events" class="event-list">
-        <p style="text-align: center; color: #777; grid-column: 1 / -1;">Loading upcoming events...</p>
-        <!-- Upcoming events loaded here -->
+    <!-- Navbar Placeholder -->
+    <div id="navbar">
+        <!-- Include Navbar HTML or load dynamically -->
+        <header class="site-header">
+             <div class="navbar-container">
+                 <a href="index.html" class="navbar-logo-link"><img src="images/logo.png" alt="Logo" class="navbar-logo"></a>
+                 <div class="header-actions">
+                    <a href="admin/login.html" id="header-login-link" class="btn tinker-button login-btn">Login / Admin</a>
+                    <a href="profile.html" id="header-profile-link" class="btn tinker-button profile-btn" style="display: none;">My Profile</a>
+                    <button id="menu-open" class="btn menu-btn">Menu</button>
+                 </div>
+             </div>
+        </header>
+        <div class="header-spacer"></div>
     </div>
 
-    <button id="toggle-past-btn" class="tinker-button">Show Past Events</button>
-
-    <div id="past-events" class="event-list hidden">
-         <h2 style="font-family: 'Anton', sans-serif; font-size: 2rem; text-align: center; grid-column: 1 / -1; margin-top: 2rem;">Past Events</h2>
-         <p style="text-align: center; color: #777; grid-column: 1 / -1;">Loading past events...</p>
-        <!-- Past events loaded here -->
+     <!-- Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay">
+        <!-- Include Menu Overlay HTML -->
+        <nav class="menu-nav">
+             <a class="logo" href="https://tinkerhub.org/" target="_blank" rel="noopener noreferrer"><img src="images/logo.png" width="120" alt="Logo"/></a>
+             <a class="menu_l home" href="index.html">Home Base</a>
+             <a class="menu_l announcements" href="announcements.html">The Bulletin</a>
+             <a class="menu_l events active" href="events.html">Happenings</a> <!-- Active class -->
+             <a class="menu_l resources" href="resources.html">Tool Shed</a>
+             <a class="menu_l forum" href="forum.html">Idea Exchange</a>
+             <a class="menu_l profile" id="menu-profile-link" href="profile.html" style="display: none;">My Profile</a>
+             <a class="menu_l login" id="menu-login-link" href="admin/login.html">Login / Admin</a>
+             <div class="contact-container"><a class="contact tinker-button" href="contact.html">Reach Out</a></div>
+        </nav>
+        <button id="menu-close" class="menu-close">×</button>
     </div>
-  </main>
 
-  <!-- Footer Placeholder -->
-  <div id="footer"></div>
+    <!-- Main Events Content -->
+    <main class="events-page">
+        <h1 class="page-title">Community Happenings</h1>
 
-  <script src="js/main.js"></script>
-  <script src="js/events.js"></script>
+        <!-- Upcoming Events Section -->
+        <section class="events-section upcoming-section">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div id="upcoming-events" class="event-list">
+                <!-- Loading message -->
+                <p class="loading-message">Loading upcoming events...</p>
+                <!-- Upcoming event cards loaded here by JS -->
+            </div>
+        </section>
+
+         <hr class="section-divider"> <!-- Visual separator -->
+
+        <!-- Past Events Section -->
+        <section class="events-section past-section">
+            <h2 class="section-title">Past Events</h2>
+             <p class="section-subtitle">Click on an event to see details and moments!</p>
+            <div id="past-events" class="event-list">
+                 <!-- Loading message -->
+                <p class="loading-message">Loading past events...</p>
+                <!-- Past event cards (wrapped in links) loaded here by JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer">
+         <!-- Include Footer HTML or load dynamically -->
+         <footer class="site-footer">
+             <div class="footer-container">
+                <p class="footer-copyright">© <span id="current-year"></span> TinkerHub NSSCE</p>
+                <div class="footer-credits"><a href="https://jithu.dev/" id="dev" target="_blank" rel="noopener noreferrer">crafted by @jithu</a></div>
+             </div>
+         </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/events.js"></script> <!-- Events specific JS -->
 </body>
 </html>

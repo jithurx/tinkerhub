@@ -1,32 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Event Details | TinkerHub Campus Community</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/event-details.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Details | TinkerHub Campus Community</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/event-details.css" />
+    <!-- Font Awesome if needed -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <style>
+        /* Styles for Admin Controls on this page */
+        .admin-controls {
+            display: none; /* Hidden by default, shown only for admins */
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 1px dashed var(--color-accent3);
+            border-radius: 5px;
+            background-color: #fff9eb;
+        }
+        .admin-controls h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--color-accent3);
+        }
+        #admin-add-moment-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+         #admin-add-moment-form input { flex-grow: 1; }
+         #admin-add-moment-form button { flex-shrink: 0; }
+         #admin-moments-list button { /* Style delete buttons next to moment images */
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(255, 0, 0, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            line-height: 18px; /* Center 'X' */
+            text-align: center;
+            cursor: pointer;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.2s;
+         }
+          #moments-gallery .moment-item:hover button {
+              opacity: 1; /* Show on hover */
+          }
+           #moments-gallery .moment-item {
+               position: relative; /* Needed for absolute positioning of button */
+           }
+        #admin-status {
+             font-size: 0.9em;
+             margin-top: 0.5rem;
+             min-height: 1.2em;
+        }
+         #admin-status.success { color: green; }
+         #admin-status.error { color: red; }
+
+    </style>
 </head>
 <body>
-  <!-- Navbar Placeholder -->
-  <div id="navbar"></div>
+    <!-- Navbar Placeholder -->
+    <div id="navbar"> <!-- ... Navbar HTML ... --> </div>
+    <!-- Menu Overlay -->
+    <div id="menu-overlay" class="menu-overlay"> <!-- ... Menu Overlay HTML ... --> </div>
 
-  <main class="event-detail-container">
-    <div id="event-detail">
-        <!-- Event details loaded here -->
-        <p style="text-align: center; color: #777;">Loading event details...</p>
-    </div>
-    <h2>Moments from the Event</h2>
-    <div id="event-moments" class="moments-gallery">
-        <!-- Gallery images loaded here -->
-         <p style="text-align: center; color: #777; grid-column: 1 / -1;">Loading moments...</p>
-    </div>
-  </main>
+    <!-- Main Event Detail Content -->
+    <main class="event-detail-page">
+        <div class="breadcrumb">
+            <a href="events.html">← Back to Events List</a>
+        </div>
 
-  <!-- Footer Placeholder -->
-  <div id="footer"></div>
+        <div class="event-detail-container">
+            <div id="detail-status" class="status-message">Loading event details...</div>
+            <div id="event-detail-content" style="display: none;">
+                <!-- Event details populated here -->
+                <h1 id="event-title">Event Title</h1>
+                <img id="event-banner" src="" alt="Event Banner" class="banner-img" style="display: none;">
+                <p class="event-meta"><strong>Date:</strong> <span id="event-date"></span></p>
+                <p class="event-meta"><strong>Location:</strong> <span id="event-location">N/A</span></p>
+                <div class="event-description" id="event-description"><p>Loading...</p></div>
+                <div class="event-registration" id="event-registration" style="display: none;">
+                    <a href="#" id="event-registration-link" class="btn tinker-button registration-btn" target="_blank" rel="noopener noreferrer">Register Here</a>
+                </div>
+            </div>
 
-  <script src="js/main.js"></script>
-  <script src="js/event-details.js"></script>
+            <!-- Moments Gallery Section -->
+            <section id="moments-section" class="moments-section" style="display: none;">
+                <h2 class="section-title">Event Moments</h2>
+
+                <!-- **NEW** Admin Controls for Moments (Initially Hidden) -->
+                <div id="admin-moments-controls" class="admin-controls">
+                    <h4>Add/Remove Moments (Admin)</h4>
+                    <form id="admin-add-moment-form">
+                        <label for="admin-new-moment-url" class="sr-only">Add Image URL</label>
+                        <input type="url" id="admin-new-moment-url" placeholder="Paste image URL here and click Add" required>
+                        <button type="submit" class="btn tinker-button secondary-btn">Add Moment</button>
+                    </form>
+                     <div id="admin-status"></div> <!-- Status for admin actions -->
+                </div>
+
+                <!-- Gallery Display -->
+                <div id="moments-gallery-status" class="status-message">Loading moments...</div>
+                <div id="moments-gallery" class="moments-gallery">
+                    <!-- Gallery images (with delete buttons for admin) loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Placeholder -->
+    <div id="footer"> <!-- ... Footer HTML ... --> </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/event-details.js"></script> <!-- Event Details specific JS -->
 </body>
 </html>

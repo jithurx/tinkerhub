@@ -1,121 +1,150 @@
-.events-section {
-  max-width: 1100px; /* Wider */
+/* css/events.css */
+
+.events-page {
+  max-width: 1100px;
   margin: 2rem auto;
   padding: 1rem;
 }
 
-.events-section h1 {
+.page-title {
   font-family: 'Anton', sans-serif;
   font-size: clamp(2.2rem, 6vw, 3.2rem);
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   text-align: center;
   color: var(--color-primary);
+  border-bottom: 3px solid var(--color-accent1);
+  padding-bottom: 0.5rem;
+  display: inline-block; /* Allow border bottom to fit content */
+  margin-left: auto;
+  margin-right: auto;
+  display: block; /* Make it block again for centering */
 }
+
+.events-section {
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+  padding-left: 1rem;
+  border-left: 5px solid var(--color-secondary); /* Accent line */
+}
+.past-section .section-title {
+   border-left-color: var(--color-accent3); /* Different accent for past */
+}
+
+.section-subtitle {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+  color: #666;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+}
+
+
+.section-divider {
+  border: none;
+  border-top: 3px dashed var(--color-border);
+  margin: 3rem auto;
+  width: 80%;
+}
+
 
 .event-list {
   display: grid;
-  /* Responsive columns */
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem; /* More gap */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjust minmax */
+  gap: 1.8rem;
+}
+
+.loading-message {
+  grid-column: 1 / -1; /* Span full width */
+  text-align: center;
+  color: #777;
+  padding: 2rem;
+  font-style: italic;
 }
 
 .event-card {
-  border-radius: 8px;
   background-color: #fff;
-  box-shadow: 4px 4px 0px var(--color-border); /* Tinker shadow */
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0px var(--color-border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 2px solid var(--color-border);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  transform: rotate(-0.5deg); /* Default slight tilt */
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  text-decoration: none; /* In case wrapped by <a> */
+  color: inherit; /* In case wrapped by <a> */
+   height: 100%; /* Make cards in a row equal height if needed */
 }
 
 .event-card:hover {
-    transform: translateY(-5px) rotate(0.5deg);
-    box-shadow: 6px 6px 0px var(--color-secondary); /* Lime shadow on hover */
+  transform: translateY(-5px) rotate(1deg);
+  box-shadow: 6px 6px 0px var(--color-primary);
 }
 
-/* Make the whole card clickable if it's a link (via JS or wrapping <a>) */
-.event-card a {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    text-decoration: none;
-    color: inherit;
+/* Styling for the link wrapping past event cards */
+#past-events > a {
+  text-decoration: none;
+  color: inherit;
+  display: block; /* Make link occupy the grid cell */
+   height: 100%;
+}
+/* Optional: slightly fade past events until hovered */
+#past-events .event-card {
+ opacity: 0.9;
+}
+#past-events a:hover .event-card {
+  opacity: 1;
+}
+
+
+.event-img-container { /* Optional container if needed */
+  width: 100%;
+  height: 180px; /* Fixed height for thumbnail */
+  overflow: hidden;
+  background-color: #f0f0f0; /* Placeholder bg */
 }
 
 .event-img {
+  display: block;
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-bottom: 2px solid var(--color-border); /* Border below image */
+  height: 100%;
+  object-fit: cover; /* Crop image nicely */
+  border-bottom: 2px solid var(--color-border);
 }
 
 .event-content {
-  padding: 1.2rem; /* More padding */
-  flex-grow: 1; /* Allow content to fill space */
+  padding: 1rem 1.2rem;
+  flex-grow: 1; /* Allow content to expand */
   display: flex;
   flex-direction: column;
 }
 
-.event-content h2 {
-  font-family: 'Bebas Neue', sans-serif; /* Tall font for title */
-  font-size: 1.7rem;
-  margin: 0 0 0.5rem;
+.event-content h2 { /* Card Title */
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem; /* Slightly smaller for card */
+  margin: 0 0 0.4rem;
   color: var(--color-text);
-  line-height: 1.2;
+  line-height: 1.3;
 }
 
-.event-content small {
-  font-family: 'Pixelify Sans', sans-serif; /* Pixel font for date */
-  color: #888;
+.event-content small { /* Date */
+  font-family: 'Pixelify Sans', sans-serif;
+  color: var(--color-primary); /* Make date stand out */
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   display: block;
 }
 
-.event-content p {
-  margin-top: 0.5rem;
+.event-content p { /* Description */
+  font-family: 'General Sans', sans-serif;
   color: #444;
-  font-size: 0.95rem;
-  flex-grow: 1; /* Push date down */
-}
-
-#toggle-past-btn {
-  margin: 3rem auto; /* More margin */
-  display: block;
-  /* Inherit from global button styles */
-  background-color: var(--color-accent2); /* Pink button */
-  color: var(--color-border);
-  box-shadow: 2px 2px 0 var(--color-border);
-}
-#toggle-past-btn:hover {
-    background-color: var(--color-primary);
-    color: #fff;
-    box-shadow: 3px 3px 0 var(--color-border);
-}
-
-#past-events {
-    margin-top: 2rem;
-    border-top: 3px dashed var(--color-border); /* Separator for past events */
-    padding-top: 2rem;
-}
-
-#past-events.hidden {
-  display: none;
-}
-
-/* Style for the links wrapping past events */
-#past-events a {
-    text-decoration: none;
-    color: inherit;
-    display: block; /* Make link take up card space */
-}
-#past-events .event-card {
-    opacity: 0.85; /* Slightly fade past events */
-    transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-#past-events .event-card:hover {
-    opacity: 1;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  flex-grow: 1; /* Push date down slightly if needed */
+  margin-bottom: 0; /* Remove default bottom margin */
 }
