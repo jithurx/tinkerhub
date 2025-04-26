@@ -8,174 +8,205 @@ document.addEventListener('DOMContentLoaded', () => {
   // Menu toggle logic
   initMenuToggle();
 
-  // Metaball animation interaction enhancement
-  enhanceMetaballInteraction();
+  // Metaball animation (assumes metaball.js self-initializes)
+  // Check if container exists before assuming metaball.js logic runs
+  if (document.getElementById('metaball-container')) {
+      // Force reflow for metaball init if needed (good practice)
+      void document.getElementById('metaball-container').offsetWidth;
+  }
 
-  // Initialize smooth scrolling
+  // Initialize smooth scrolling for internal links
   initSmoothScroll();
 
-  // Add page transitions
+  // Add basic page transitions
   initPageTransitions();
+
+  // Set current year in footer
+  setCurrentYear();
+
+  // Optional: Inject Navbar and Footer dynamically
+  // loadComponent('navbar', 'components/navbar.html');
+  // loadComponent('footer', 'components/footer.html');
 });
 
-// Menu toggle with animation considerations
+// --- Core Functions ---
+
 function initMenuToggle() {
   const menuOpen = document.getElementById('menu-open');
   const menuClose = document.getElementById('menu-close');
   const overlay = document.getElementById('menu-overlay');
-  const metaballContainer = document.getElementById('metaball-container');
 
-  if (!menuOpen || !menuClose || !overlay) return;
+  // Try finding buttons inside potential dynamically loaded navbar
+  const getMenuOpen = () => document.getElementById('menu-open');
+  const getMenuClose = () => document.getElementById('menu-close');
+  const getOverlay = () => document.getElementById('menu-overlay');
 
-  menuOpen.addEventListener('click', () => {
-    // Pause or slow down metaball animation during menu open
-    if (metaballContainer) {
-      metaballContainer.classList.add('menu-active');
-    }
-    
-    // Add active class with slight delay to allow for animation setup
-    setTimeout(() => {
-      overlay.classList.add('active');
-    }, 10);
-  });
+  // Function to attach listeners
+  const attachMenuListeners = () => {
+      const openBtn = getMenuOpen();
+      const closeBtn = getMenuClose();
+      const overlayEl = getOverlay();
 
-  menuClose.addEventListener('click', () => {
-    overlay.classList.remove('active');
-    
-    // Re-energize metaball animation when menu closes after a slight delay
-    setTimeout(() => {
-      if (metaballContainer) {
-        metaballContainer.classList.remove('menu-active');
-        // Trigger a subtle "pulse" in the metaballs on menu close
-        triggerMetaballPulse();
+      if (!openBtn || !closeBtn || !overlayEl) {
+          // console.warn("Menu elements not found yet, retrying...");
+          // setTimeout(attachMenuListeners, 200); // Retry if loaded async
+          return; // Exit if not found after initial load
       }
-    }, 300);
-  });
 
-  // Close menu when clicking outside of menu content
-  overlay.addEventListener('click', (event) => {
-    if (event.target === overlay) {
-      menuClose.click();
-    }
-  });
+      openBtn.removeEventListener('click', openMenuHandler); // Remove previous listener if any
+      openBtn.addEventListener('click', openMenuHandler);
 
-  // Add escape key support
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && overlay.classList.contains('active')) {
-      menuClose.click();
-    }
-  });
+      closeBtn.removeEventListener('click', closeMenuHandler); // Remove previous listener
+      closeBtn.addEventListener('click', closeMenuHandler);
+
+      overlayEl.removeEventListener('click', overlayClickHandler); // Remove previous listener
+      overlayEl.addEventListener('click', overlayClickHandler);
+  };
+
+  // Event Handlers (defined once)
+  const openMenuHandler = () => {
+      const overlayEl = getOverlay();
+      if (overlayEl) {
+          overlayEl.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Prevent body scroll
+      }
+  };
+
+  const closeMenuHandler = () => {
+      const overlayEl = getOverlay();
+      if (overlayEl) {
+          overlayEl.classList.remove('active');
+          document.body.style.overflow = ''; // Restore body scroll
+      }
+  };
+
+  const overlayClickHandler = (event) => {
+      if (event.target === getOverlay()) { closeMenuHandler(); }
+  };
+
+  // Initial attachment
+  attachMenuListeners();
+
+  // Global key listener
+  document.removeEventListener('keydown', escapeKeyListener); // Remove previous if any
+  document.addEventListener('keydown', escapeKeyListener);
 }
 
-// Enhance metaball interaction with page elements
-function enhanceMetaballInteraction() {
-  const metaballContainer = document.getElementById('metaball-container');
-  const heroContent = document.querySelector('.hero-content');
-  
-  if (!metaballContainer || !heroContent) return;
+// Use a named function for the key listener to allow removal
+const escapeKeyListener = (event) => {
+  const overlay = document.getElementById('menu-overlay'); // Get overlay element directly
+  if (event.key === 'Escape' && overlay && overlay.classList.contains('active')) {
+      const menuClose = document.getElementById('menu-close');
+      if (menuClose) menuClose.click(); // Trigger the close handler
+  }
+};
 
-  // Make hero content interact with metaballs on hover
-  heroContent.addEventListener('mouseover', () => {
-    metaballContainer.classList.add('content-hover');
-  });
 
-  heroContent.addEventListener('mouseout', () => {
-    metaballContainer.classList.remove('content-hover');
-  });
-
-  // Handle scroll effects for metaballs
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    const heroHeight = document.querySelector('.hero').offsetHeight;
-    const scrollProgress = Math.min(scrollY / (heroHeight * 0.7), 1);
-    
-    // Adjust metaball behavior based on scroll position
-    if (scrollProgress > 0) {
-      metaballContainer.style.opacity = 1 - scrollProgress * 0.7;
-      
-      // Add parallax effect to metaballs
-      const transform = `translateY(${scrollY * 0.2}px)`;
-      metaballContainer.style.transform = transform;
-    } else {
-      metaballContainer.style.opacity = 1;
-      metaballContainer.style.transform = 'translateY(0)';
-    }
-  });
-}
-
-// Helper function to trigger a visual pulse in the metaball animation
-function triggerMetaballPulse() {
-  const metaballContainer = document.getElementById('metaball-container');
-  if (!metaballContainer) return;
-  
-  // Add class to trigger animation
-  metaballContainer.classList.add('pulse');
-  
-  // Remove class after animation completes
-  setTimeout(() => {
-    metaballContainer.classList.remove('pulse');
-  }, 1000);
-}
-
-// Smooth scrolling for anchor links
 function initSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      
-      const targetElement = document.querySelector(targetId);
-      if (!targetElement) return;
-      
-      window.scrollTo({
-        top: targetElement.offsetTop,
-        behavior: 'smooth'
+      anchor.addEventListener('click', function (e) {
+          const targetId = this.getAttribute('href');
+          // Ensure it's just an ID fragment and the element exists
+          if (targetId.length > 1 && targetId.startsWith('#')) {
+              const targetElement = document.querySelector(targetId);
+              if (targetElement) {
+                  e.preventDefault(); // Prevent default jump
+                  targetElement.scrollIntoView({
+                      behavior: 'smooth'
+                  });
+              }
+          }
       });
-    });
   });
 }
 
-// Page transitions for smoother navigation experience
 function initPageTransitions() {
-  // Only apply to internal links
-  document.querySelectorAll('a:not([href^="#"]):not([href^="http"])').forEach(link => {
-    link.addEventListener('click', function(e) {
-      // Skip processing for modified clicks
-      if (e.metaKey || e.ctrlKey) return;
-      
-      const href = this.getAttribute('href');
-      if (!href || href.startsWith('#')) return;
-      
-      e.preventDefault();
-      
-      // Add exit animation to current page
-      document.body.classList.add('page-transition-exit');
-      
-      // Navigate after transition
-      setTimeout(() => {
-        window.location.href = href;
-      }, 300);
-    });
+  const body = document.body;
+
+  // Apply enter state on load
+  body.classList.add('page-transition-enter');
+  requestAnimationFrame(() => { // Ensure style is applied before removing class
+       body.classList.remove('page-transition-enter');
   });
-  
-  // Handle page load animation
-  window.addEventListener('pageshow', (event) => {
-    // Add entrance animation
-    document.body.classList.add('page-transition-enter');
-    
-    // Remove animation classes
-    setTimeout(() => {
-      document.body.classList.remove('page-transition-enter');
-    }, 500);
+
+
+  // Apply exit state when navigating away
+  window.addEventListener('beforeunload', () => {
+      body.classList.add('page-transition-exit');
+  });
+
+   // Handle internal link clicks for smoother perceived transition
+   document.addEventListener('click', (event) => {
+      // Check if the clicked element is a link or inside a link
+      const link = event.target.closest('a');
+      if (link && link.href && link.target !== '_blank' && link.href.startsWith(window.location.origin) && !link.href.includes('#')) {
+           // Check if it's an internal navigation link (not just hash)
+           if (link.pathname !== window.location.pathname || link.search !== window.location.search) {
+                event.preventDefault(); // Prevent immediate navigation
+                body.classList.add('page-transition-exit');
+                // Wait for animation then navigate
+                setTimeout(() => {
+                    window.location.href = link.href;
+                }, 300); // Match transition duration in CSS
+           }
+      }
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const yearSpan = document.getElementById('current-year');
-  if (yearSpan) {
-      yearSpan.textContent = new Date().getFullYear();
+
+function setCurrentYear() {
+  // Function to actually set the year
+  const setYear = () => {
+      const yearSpan = document.getElementById('current-year');
+      if (yearSpan) {
+          yearSpan.textContent = new Date().getFullYear();
+      } else {
+          // console.warn("Footer year span ('current-year') not found.");
+      }
+  };
+
+  // Initial setting attempt
+  setYear();
+
+  // Re-run if footer might be loaded dynamically (example)
+  // const observer = new MutationObserver((mutationsList, observer) => {
+  //     for(const mutation of mutationsList) {
+  //         if (mutation.type === 'childList') {
+  //             if (document.getElementById('current-year')) {
+  //                 setYear();
+  //                 observer.disconnect(); // Stop observing once found
+  //                 return;
+  //             }
+  //         }
+  //     }
+  // });
+  // const footerElement = document.getElementById('footer');
+  // if (footerElement) {
+  //      observer.observe(footerElement, { childList: true, subtree: true });
+  // }
+}
+
+// --- Optional: Navbar/Footer Injection Helper ---
+async function loadComponent(id, url) {
+ const target = document.getElementById(id);
+ if (!target) {
+     console.warn(`Target element with ID '${id}' not found for component loading.`);
+     return;
   }
-  // ... other init code from main.js
-});
+ try {
+     const response = await fetch(url);
+     if (response.ok) {
+         target.innerHTML = await response.text();
+         console.log(`Component '${id}' loaded from ${url}`);
+         // Re-initialize dependent scripts AFTER content is loaded
+         if (id === 'navbar') { initMenuToggle(); }
+         if (id === 'footer') { setCurrentYear(); }
+     } else {
+         console.error(`Failed to load ${url}: ${response.status} ${response.statusText}`);
+         target.innerHTML = `<p style="color:red;">Error loading component ${id}.</p>`;
+      }
+ } catch (error) {
+     console.error(`Error fetching ${url}:`, error);
+     target.innerHTML = `<p style="color:red;">Error loading component ${id}.</p>`;
+ }
+}
