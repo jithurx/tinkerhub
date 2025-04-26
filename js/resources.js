@@ -1,6 +1,6 @@
 // js/resources.js
-// const API_BASE_URL = 'https://tinkerhub-nssce-api.onrender.com'; // PRODUCTION URL
-const API_BASE_URL = 'http://localhost:5000'; // LOCAL DEV URL (Example)
+const API_BASE_URL = 'https://tinkerhub-0pse.onrender.com'; // PRODUCTION URL
+// const API_BASE_URL = 'http://localhost:5000'; // LOCAL DEV URL (Example)
 
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('resource-list');
