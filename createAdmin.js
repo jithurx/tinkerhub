@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const User = require('./server/models/User.js'); // Adjust path if needed
 
 // --- Configuration ---
-const ADMIN_EMAIL = 'abhijithxr@gmail.com'; // Set desired admin email
-const ADMIN_PASSWORD = 'abhi@2004'; // Set desired admin password
-const ADMIN_NAME = 'jithu';
+const ADMIN_EMAIL = ''; // Set desired admin email
+const ADMIN_PASSWORD = ''; // Set desired admin password
+const ADMIN_NAME = '';
 // ---------------------
 
 const connectDBAndCreateAdmin = async () => {
