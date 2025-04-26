@@ -16,7 +16,12 @@ const ProgrammingLanguageSchema = new mongoose.Schema({
         type: Number,
         min: [0, 'Proficiency cannot be less than 0'],
         max: [100, 'Proficiency cannot be more than 100'],
-        default: 0
+        default: 0,
+        // Custom validator example (optional): Ensure it's an integer
+        validate : {
+             validator : Number.isInteger,
+             message   : '{VALUE} is not an integer value for proficiency'
+        }
     }
 }, { _id: false });
 
@@ -27,14 +32,17 @@ const SocialLinksSchema = new mongoose.Schema({
         type: String,
         trim: true
         // Optional: Add validation for URL format if desired
+        // match: [/^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+?\/?$/, 'Invalid GitHub profile URL']
     },
     linkedin: {
         type: String,
         trim: true
+        // match: [/^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+?\/?$/, 'Invalid LinkedIn profile URL']
     },
     instagram: {
         type: String,
         trim: true
+        // match: [/^(https?:\/\/)?(www\.)?instagram\.com\/[a-zA-Z0-9._]+?\/?$/, 'Invalid Instagram profile URL']
     }
     // Add fields for other platforms like 'twitter', 'website', etc. if needed
 }, { _id: false });
@@ -53,6 +61,7 @@ const UserSchema = new mongoose.Schema({
         required: [true, 'Please add an email'],
         unique: true, // Ensure emails are unique across all users
         lowercase: true, // Store emails consistently in lowercase
+        trim: true,
         match: [ // Basic email format validation regex
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             'Please add a valid email address'
@@ -60,7 +69,10 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['student', 'admin'], // Only allow these two roles
+        enum: {
+            values: ['student', 'admin'],
+            message: 'Role must be either "student" or "admin"' // Custom error message
+        },
         default: 'student' // New users are students by default
     },
     password: {
@@ -74,8 +86,8 @@ const UserSchema = new mongoose.Schema({
     profilePictureUrl: {
         type: String,
         trim: true,
-        default: 'images/default-avatar.png' // Path to a default image in your static assets
-        // Consider storing full URLs if using external storage like S3/Cloudinary later
+        default: 'images/default-avatar.png' // Default avatar path (relative to frontend static assets)
+        // Consider adding validation for URL format if users provide custom URLs
     },
     about: {
         type: String,
@@ -84,9 +96,16 @@ const UserSchema = new mongoose.Schema({
         default: '' // Default to an empty string
     },
     // Embed the programming languages schema as an array
-    programmingLanguages: [ProgrammingLanguageSchema],
+    // Mongoose will validate each object in the array against ProgrammingLanguageSchema
+    programmingLanguages: {
+        type: [ProgrammingLanguageSchema],
+        default: [] // Default to an empty array
+    },
     // Embed the social links schema as a single object
-    socials: SocialLinksSchema
+    socials: {
+        type: SocialLinksSchema,
+        default: () => ({}) // Default to an empty object
+    }
 
 }, {
     // --- Schema Options ---
@@ -98,16 +117,15 @@ const UserSchema = new mongoose.Schema({
 
 // Hash password before saving the user document (only if password changed)
 UserSchema.pre('save', async function(next) {
-    // Check if the password field was modified before hashing
-    // Avoids re-hashing if only other fields like 'name' or 'about' are updated
+    // Only run this function if password was actually modified (or is new)
     if (!this.isModified('password')) {
         return next(); // Skip hashing if password wasn't changed
     }
 
     console.log(`Hashing password for user: ${this.email}`); // Optional log
     try {
-        // Generate salt (randomness factor)
-        const salt = await bcrypt.genSalt(10); // 10 rounds is common
+        // Generate salt
+        const salt = await bcrypt.genSalt(10);
         // Hash password with salt
         this.password = await bcrypt.hash(this.password, salt);
         next(); // Continue with the save operation
@@ -122,25 +140,13 @@ UserSchema.pre('save', async function(next) {
 
 // Method to generate a signed JWT for this specific user instance
 UserSchema.methods.getSignedJwtToken = function() {
-    // Ensure required environment variables are set
     if (!process.env.JWT_SECRET || !process.env.JWT_EXPIRES_IN) {
         console.error('FATAL ERROR: JWT environment variables not set.');
-        // Depending on your error handling strategy, you might:
-        // throw new Error('JWT configuration error.');
-        return null; // Or return null and let the calling function handle it
+        return null;
     }
-
-    // Create the payload to include in the token
-    const payload = {
-        id: this._id,   // User's MongoDB document ID
-        role: this.role // User's role
-    };
-
-    // Sign the token with the secret and expiration time
+    const payload = { id: this._id, role: this.role };
     try {
-         return jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN
-        });
+         return jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
     } catch(error) {
         console.error("Error signing JWT:", error);
         return null;
@@ -149,24 +155,19 @@ UserSchema.methods.getSignedJwtToken = function() {
 
 // Method to compare an entered password with the user's stored hashed password
 UserSchema.methods.matchPassword = async function(enteredPassword) {
-    // Return false immediately if no password was entered
-    if (!enteredPassword) {
+    if (!enteredPassword || !this.password) { // Check if entered or stored password exists
         return false;
     }
-    // 'this.password' refers to the hashed password fetched from the database.
     // IMPORTANT: The document MUST have been fetched including the password field
     // (e.g., using .select('+password')) because the schema has 'select: false'.
     try {
-        // Use bcrypt.compare to securely compare plain text with hash
         return await bcrypt.compare(enteredPassword, this.password);
     } catch (error) {
         console.error('Error comparing password:', error);
-        return false; // Return false if comparison fails for any reason
+        return false; // Return false on bcrypt error
     }
 };
 
 
 // --- Export Model ---
-// Create and export the Mongoose model based on the schema
 module.exports = mongoose.model('User', UserSchema);
-// Mongoose will automatically create/use a collection named 'users' (lowercase, pluralized)
