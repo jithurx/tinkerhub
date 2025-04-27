@@ -1,78 +1,56 @@
 /**
  * TinkerHub Campus Community
  * Main JavaScript file
+ * - Handles dynamic component loading (Navbar, Footer)
+ * - Manages menu toggle state & button visibility (Menu vs Home)
+ * - Manages login/signup/profile link visibility
+ * - Initializes smooth scroll & page transitions
+ * - Sets current year in footer
  */
 
-// --- Helper Function to Ensure Menu is Closed ---
+// --- Helper Function to Ensure Menu is Closed on Load/Show ---
 function ensureMenuClosed() {
     const overlay = document.getElementById('menu-overlay');
     if (overlay && overlay.classList.contains('active')) {
         overlay.classList.remove('active');
-        console.log("EnsureMenuClosed: Removed active class from menu overlay.");
+        console.log("EnsureMenuClosed: Removed .active from menu overlay.");
     }
-    // Always ensure body scrolling is enabled on page load/show
+    // Always ensure body scrolling is enabled
     if (document.body.style.overflow === 'hidden') {
         document.body.style.overflow = '';
         console.log("EnsureMenuClosed: Restored body scroll.");
     }
 }
 
-
-// --- App initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOMContentLoaded event fired."); // Debug log
-
-    // Initial check to ensure menu is closed on fresh load
-    ensureMenuClosed();
-
-    // Menu toggle logic setup
-    initMenuToggle();
-
-    // Metaball animation (only if container exists)
-    const metaballContainer = document.getElementById('metaball-container');
-    if (metaballContainer) {
-        // Assuming metaball.js self-initializes or you call its init here
-        console.log("Metaball container found.");
-        // Force reflow for metaball init if needed
-        void metaballContainer.offsetWidth;
+// --- Helper Function to Inject HTML Components ---
+async function loadComponent(id, url) {
+   const target = document.getElementById(id);
+   if (!target) {
+       console.warn(`Target element with ID '${id}' not found for component loading.`);
+       return false; // Indicate failure
     }
+   console.log(`Loading component ${id} from ${url}...`);
+   try {
+       const response = await fetch(url); // Fetch the component's HTML file
+       if (response.ok) {
+           target.innerHTML = await response.text(); // Inject the HTML
+           console.log(`Component '${id}' loaded successfully.`);
+           return true; // Indicate success
+       } else {
+           console.error(`Failed to load ${url}: ${response.status} ${response.statusText}`);
+           target.innerHTML = `<p style="color:red; text-align:center; padding: 1rem;">Error loading component ${id}.</p>`;
+           return false;
+        }
+   } catch (error) {
+       console.error(`Error fetching ${url}:`, error);
+       target.innerHTML = `<p style="color:red; text-align:center;">Error loading component ${id}.</p>`;
+       return false;
+   }
+}
 
-    // Initialize smooth scrolling
-    initSmoothScroll();
-
-    // Add page transitions (consider if this interacts poorly with back button)
-    initPageTransitions();
-
-    // Set current year in footer
-    setCurrentYear();
-
-    // Update Header/Menu Links based on Login State
-    updateAuthVisibility(); // Call the function to set initial visibility
-
-    // Inject Navbar and Footer (Optional Example)
-    // loadComponent('navbar', 'components/navbar.html');
-    // loadComponent('footer', 'components/footer.html');
-});
-
-
-// --- Handle back/forward navigation state ---
-// 'pageshow' event often fires more reliably than DOMContentLoaded on back/forward
-window.addEventListener('pageshow', function(event) {
-    console.log("pageshow event fired. Persisted:", event.persisted); // Debug log
-    // event.persisted is true if page is loaded from back/forward cache (bfcache)
-    // We want to ensure menu is closed regardless
-    ensureMenuClosed();
-
-     // Also re-check auth state on pageshow, in case login state changed in another tab
-     updateAuthVisibility();
-});
-
-
-// --- Core Functions ---
-
-// Updated function to handle visibility of Login/Signup/Profile links
+// --- Helper Function to Update Login/Signup/Profile Link Visibility ---
 function updateAuthVisibility() {
-    console.log("Updating auth visibility..."); // Debug log
+    console.log("Updating auth visibility...");
     const token = localStorage.getItem('token');
     // Header Links
     const headerLoginLink = document.getElementById('header-login-link');
@@ -83,152 +61,256 @@ function updateAuthVisibility() {
     const menuSignupLink = document.getElementById('menu-signup-link');
     const menuProfileLink = document.getElementById('menu-profile-link');
 
-    if (token) { // User IS logged in
-        if (headerLoginLink) headerLoginLink.style.display = 'none';
-        if (headerSignupLink) headerSignupLink.style.display = 'none';
-        if (headerProfileLink) headerProfileLink.style.display = 'inline-block'; // Use appropriate display
+    // Determine display style based on token presence
+    const loggedInDisplay = token ? 'inline-block' : 'none'; // Header uses inline-block for buttons
+    const loggedOutDisplay = token ? 'none' : 'inline-block';
+    const menuLoggedInDisplay = token ? 'block' : 'none'; // Menu uses block for links
+    const menuLoggedOutDisplay = token ? 'none' : 'block';
 
-        if (menuLoginLink) menuLoginLink.style.display = 'none';
-        if (menuSignupLink) menuSignupLink.style.display = 'none';
-        if (menuProfileLink) menuProfileLink.style.display = 'block'; // Menu links are block
-    } else { // User IS NOT logged in
-        if (headerLoginLink) headerLoginLink.style.display = 'inline-block';
-        if (headerSignupLink) headerSignupLink.style.display = 'inline-block';
-        if (headerProfileLink) headerProfileLink.style.display = 'none';
+    // Apply styles only if elements exist (important after dynamic load)
+    if(headerProfileLink) headerProfileLink.style.display = loggedInDisplay;
+    if(headerLoginLink) headerLoginLink.style.display = loggedOutDisplay;
+    if(headerSignupLink) headerSignupLink.style.display = loggedOutDisplay;
 
-        if (menuLoginLink) menuLoginLink.style.display = 'block';
-        if (menuSignupLink) menuSignupLink.style.display = 'block';
-        if (menuProfileLink) menuProfileLink.style.display = 'none';
+    if(menuProfileLink) menuProfileLink.style.display = menuLoggedInDisplay;
+    if(menuLoginLink) menuLoginLink.style.display = menuLoggedOutDisplay;
+    if(menuSignupLink) menuSignupLink.style.display = menuLoggedOutDisplay;
+
+    console.log("Auth visibility updated.");
+}
+
+// --- Helper Function to Set Header Button State (Menu vs Home) ---
+function updateHeaderButton() {
+    const menuOpenBtn = document.getElementById('menu-open');
+    const homeLinkBtn = document.getElementById('header-home-link');
+    // Check if BOTH buttons actually exist in the DOM first
+    if (!menuOpenBtn || !homeLinkBtn) {
+         console.warn("Could not find menu-open or header-home-link button during updateHeaderButton.");
+         return; // Exit if elements aren't loaded yet
     }
-     console.log("Auth visibility updated.");
+
+    const currentPath = window.location.pathname;
+    // More robust check for homepage (handles potential repo names in GitHub Pages paths)
+    const pathSegments = currentPath.split('/').filter(segment => segment); // Get non-empty path segments
+    const lastSegment = pathSegments[pathSegments.length - 1];
+    const isHomepage = pathSegments.length === 0 || lastSegment === 'index.html' || (pathSegments.length === 1 && window.location.origin.includes('github.io')); // Crude check for repo root on GH Pages
+
+    console.log(`Updating header button. Path: ${currentPath}, Is Homepage: ${isHomepage}`); // Debug
+
+    if (isHomepage) {
+        menuOpenBtn.style.display = 'inline-block'; // Or 'flex' if needed by styling
+        homeLinkBtn.style.display = 'none';
+    } else {
+        menuOpenBtn.style.display = 'none';
+        homeLinkBtn.style.display = 'inline-block'; // Or 'flex'
+    }
+}
+
+// --- Helper Function to Set Current Year ---
+function setCurrentYear() {
+    const setYear = () => {
+        const yearSpan = document.getElementById('current-year');
+        if (yearSpan) {
+            yearSpan.textContent = new Date().getFullYear();
+        }
+    };
+    setYear(); // Attempt on initial run and subsequent calls
 }
 
 
+// --- Core Functions (Menu, Scroll, Transitions) ---
+
 function initMenuToggle() {
-    // Use function scope to avoid polluting global scope unnecessarily
     const getMenuOpen = () => document.getElementById('menu-open');
     const getMenuClose = () => document.getElementById('menu-close');
     const getOverlay = () => document.getElementById('menu-overlay');
 
-    const attachMenuListeners = () => {
-        const openBtn = getMenuOpen();
-        const closeBtn = getMenuClose();
+    // Define handlers once
+    const openMenuHandler = () => {
         const overlayEl = getOverlay();
-        if (!openBtn || !closeBtn || !overlayEl) { return; }
-
-        // --- Define Handlers ---
-        const openMenuHandler = () => {
-            console.log("Opening menu..."); // Debug
+        if (overlayEl) {
+            console.log("Opening menu...");
             overlayEl.classList.add('active');
             document.body.style.overflow = 'hidden';
-        };
-        const closeMenuHandler = () => {
-            console.log("Closing menu..."); // Debug
+        } else { console.warn("Could not find overlay to open."); }
+    };
+    const closeMenuHandler = () => {
+        const overlayEl = getOverlay();
+        if (overlayEl) {
+            console.log("Closing menu...");
             overlayEl.classList.remove('active');
             document.body.style.overflow = '';
-        };
-        const overlayClickHandler = (event) => { if (event.target === overlayEl) closeMenuHandler(); };
-        const escapeKeyListener = (event) => { if (event.key === 'Escape' && overlayEl.classList.contains('active')) closeMenuHandler(); };
-
-        // --- Attach Listeners (Remove previous first to prevent duplicates) ---
-        openBtn.removeEventListener('click', openMenuHandler);
-        openBtn.addEventListener('click', openMenuHandler);
-
-        closeBtn.removeEventListener('click', closeMenuHandler);
-        closeBtn.addEventListener('click', closeMenuHandler);
-
-        overlayEl.removeEventListener('click', overlayClickHandler);
-        overlayEl.addEventListener('click', overlayClickHandler);
-
-        // Attach keydown to document, remove previous listener first
-        document.removeEventListener('keydown', escapeKeyListener);
-        document.addEventListener('keydown', escapeKeyListener);
-
-        console.log("Menu listeners attached."); // Debug
+        } else { console.warn("Could not find overlay to close."); }
+    };
+    const overlayClickHandler = (event) => { if (event.target === getOverlay()) closeMenuHandler(); };
+    const escapeKeyListener = (event) => {
+        const overlayEl = getOverlay();
+        if (event.key === 'Escape' && overlayEl && overlayEl.classList.contains('active')) closeMenuHandler();
     };
 
-    attachMenuListeners(); // Initial attachment attempt
+    // Function to attach listeners, checking element existence
+    const attachMenuListeners = () => {
+        const openBtn = getMenuOpen();
+        const closeBtn = getMenuClose(); // Close button is inside overlay
+        const overlayEl = getOverlay();
+
+        if (!overlayEl) { console.error("Menu overlay element not found! Cannot attach listeners."); return; }
+
+        // Attach to overlay first
+        overlayEl.removeEventListener('click', overlayClickHandler); // Prevent duplicates
+        overlayEl.addEventListener('click', overlayClickHandler);
+        if(closeBtn) {
+             closeBtn.removeEventListener('click', closeMenuHandler);
+             closeBtn.addEventListener('click', closeMenuHandler);
+        } else { console.warn("Menu close button not found inside overlay."); }
+
+        // Attach to open button (might be loaded dynamically)
+        if (openBtn) {
+             openBtn.removeEventListener('click', openMenuHandler);
+             openBtn.addEventListener('click', openMenuHandler);
+             console.log("Menu open listener attached.");
+        } else { console.warn("Menu open button not found yet. Listener not attached."); }
+
+        // Attach keydown listener to document
+        document.removeEventListener('keydown', escapeKeyListener);
+        document.addEventListener('keydown', escapeKeyListener);
+    };
+
+    attachMenuListeners(); // Attempt initial attachment
 }
 
+
 function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            const targetId = this.getAttribute('href');
-            if (targetId.length > 1 && targetId.startsWith('#')) {
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    e.preventDefault();
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                    // Optional: Close menu if open after clicking anchor link
-                     const overlay = document.getElementById('menu-overlay');
-                     if (overlay && overlay.classList.contains('active')) {
-                         const menuClose = document.getElementById('menu-close');
-                         if (menuClose) menuClose.click();
-                     }
-                }
+    // Use event delegation on the body
+    document.body.addEventListener('click', function (e) {
+        const link = e.target.closest('a[href^="#"]');
+        if (link) {
+            const targetId = link.getAttribute('href');
+            if (targetId.length > 1) {
+                try {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        e.preventDefault();
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                        // Close menu if open after clicking anchor link
+                         const overlay = document.getElementById('menu-overlay');
+                         if (overlay && overlay.classList.contains('active')) {
+                             const menuClose = document.getElementById('menu-close');
+                             if (menuClose) menuClose.click();
+                         }
+                    } else { console.warn(`Smooth scroll target '${targetId}' not found.`); }
+                } catch (error) { console.error(`Error finding smooth scroll target '${targetId}':`, error); }
             }
-        });
+        }
     });
 }
 
 
 function initPageTransitions() {
     const body = document.body;
-    // Remove enter class immediately after animation potentially finishes
-    // Use animationend event if you have a specific animation defined
-    // setTimeout(() => body.classList.remove('page-transition-enter'), 500); // Based on CSS duration
 
-    // Apply exit state when navigating away via links
-     document.addEventListener('click', (event) => {
+    // Apply exit state when navigating away via internal links
+     document.body.addEventListener('click', (event) => {
         const link = event.target.closest('a');
-         // Check if it's a valid internal navigation link (not target blank, not just hash)
+        // Check if it's a valid internal navigation link
         if (link && link.href && link.target !== '_blank' && !link.getAttribute('href').startsWith('#') && link.hostname === window.location.hostname) {
-             event.preventDefault();
-             console.log("Internal link clicked, applying exit transition..."); // Debug
-             body.classList.add('page-transition-exit');
-             setTimeout(() => { window.location.href = link.href; }, 300); // Match CSS duration
+             if (link.pathname !== window.location.pathname || link.search !== window.location.search) {
+                  event.preventDefault();
+                  console.log("Internal link clicked, applying exit transition...");
+                  body.classList.add('page-transition-exit');
+                  setTimeout(() => { window.location.href = link.href; }, 300); // Match CSS
+             }
         }
     });
 
-     // Handle browser back/forward - 'pageshow' helps reset state
-     window.addEventListener('pageshow', function(event) {
-        // Remove exit class if user navigated back
-        body.classList.remove('page-transition-exit');
-        // Re-apply enter animation logic if needed, especially from bfcache
-         if (event.persisted) { // Page loaded from back/forward cache
-             console.log("Page loaded from bfcache, resetting transition state.");
-             body.classList.remove('page-transition-enter'); // Ensure it's removed
-             body.style.animation = 'none'; // Temporarily disable animation
-             requestAnimationFrame(() => { // Force reflow
-                 body.style.animation = ''; // Re-enable animation
-                 body.classList.add('page-transition-enter');
-                 requestAnimationFrame(() => {
-                     body.classList.remove('page-transition-enter');
-                 });
-             });
-         }
-    });
+     // Handle browser back/forward and initial load animation state
+     const handlePageShow = (event) => {
+         body.classList.remove('page-transition-exit');
+         body.classList.remove('page-transition-enter');
+         body.style.animation = 'none';
+         requestAnimationFrame(() => {
+             body.style.animation = '';
+             body.classList.add('page-transition-enter');
+             // Remove class after animation to prevent re-triggering on style change
+             setTimeout(() => { body.classList.remove('page-transition-enter'); }, 500); // Match CSS duration
+         });
+         console.log("Page show handled, transition state reset.");
+     };
 
-      // Fallback for beforeunload (less reliable for transitions)
-     window.addEventListener('beforeunload', () => {
-         // Don't add exit class here as pageshow handles back better
-         // body.classList.add('page-transition-exit');
-     });
-}
+     window.addEventListener('pageshow', handlePageShow);
 
-function setCurrentYear() {
-    const setYear = () => {
-        const yearSpan = document.getElementById('current-year');
-        if (yearSpan) yearSpan.textContent = new Date().getFullYear();
-    };
-    setYear(); // Attempt on initial load
-    // If using dynamic footer loading, call setYear() again after component is loaded
+     // Call once on initial load to trigger entry animation
+     // Ensure this runs *after* DOMContentLoaded potentially
+     // setTimeout(() => handlePageShow({persisted: false}), 0);
+     // Or rely on the initial CSS animation defined on body
 }
 
 
-// --- Optional: Navbar/Footer Injection Helper ---
-async function loadComponent(id, url) { /* ... keep implementation ... */ }
+// --- App Initialization on DOMContentLoaded ---
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log("DOMContentLoaded event fired.");
+
+    // --- Load Components ---
+    // Wait for both components to finish attempting to load
+    await Promise.all([
+        loadComponent('navbar', 'components/navbar.html'),
+        loadComponent('footer', 'components/footer.html')
+    ]);
+    console.log("Components loading attempted.");
+
+    // --- Run initializations AFTER components are loaded/attempted ---
+    // These functions should ideally check for element existence internally
+
+    ensureMenuClosed();     // Reset menu state visually
+    initMenuToggle();       // Attach menu button listeners
+    initSmoothScroll();     // Setup smooth scrolling
+    initPageTransitions();  // Setup page transition logic (initial part)
+    setCurrentYear();       // Set footer year
+    updateAuthVisibility(); // Set initial Login/Signup/Profile visibility
+    updateHeaderButton();   // Set initial Menu/Home button visibility
+
+    // Metaball specific logic
+    const metaballContainer = document.getElementById('metaball-container');
+    if (metaballContainer) {
+        console.log("Metaball container found.");
+        if (typeof Metaball === 'undefined') {
+            console.warn("Metaball class not defined. Ensure metaball.js is loaded.");
+        } else {
+             // Assuming metaball.js self-initializes correctly via its own listener
+             void metaballContainer.offsetWidth; // Force reflow
+        }
+    }
+
+    console.log("Initial page setup complete via DOMContentLoaded.");
+}); // End DOMContentLoaded Listener
 
 
-// --- Add console logs for debugging ---
-console.log("main.js loaded");
+// --- Handle back/forward navigation state (pageshow) ---
+// This runs *in addition* to DOMContentLoaded, especially important for bfcache hits
+window.addEventListener('pageshow', function(event) {
+    console.log("pageshow event fired. Persisted:", event.persisted);
+
+    // Re-run essential state updates on page show
+    ensureMenuClosed();
+    updateAuthVisibility(); // Ensure correct buttons show if login changed
+    updateHeaderButton(); // Ensure correct Menu/Home button shows
+    setCurrentYear(); // Update year just in case footer was cached
+
+    // Reset page transition state if loading from cache
+    if (event.persisted) {
+        const body = document.body;
+        body.classList.remove('page-transition-exit', 'page-transition-enter');
+        body.style.animation = 'none';
+        requestAnimationFrame(() => { // Trigger reflow before re-applying animation
+            body.style.animation = '';
+             // Re-apply entry animation if desired from bfcache
+             // body.classList.add('page-transition-enter');
+             // setTimeout(() => { body.classList.remove('page-transition-enter'); }, 500);
+        });
+         console.log("Page transition state reset for bfcache load.");
+    }
+});
+
+
+// --- Final Log ---
+console.log("main.js script parsed.");

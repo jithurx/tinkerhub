@@ -1,11 +1,21 @@
 <!-- components/navbar.html -->
 <header class="site-header">
-    <div class="navbar-container">
+  <div class="navbar-container">
       <a href="index.html" class="navbar-logo-link" aria-label="Homepage">
-        <img src="images/logo.png" alt="TinkerHub Campus Logo" class="navbar-logo">
+          <img src="images/logo.png" alt="TinkerHub Campus Logo" class="navbar-logo">
       </a>
-      <button id="menu-open" class="btn menu-btn">Menu</button>
-    </div>
-  </header>
-  <!-- Add this div right after the navbar include/placeholder in your main HTML files -->
-  <div class="header-spacer"></div>
+      <div class="header-actions">
+          <!-- Login/Signup/Profile links -->
+          <a href="signup.html" id="header-signup-link" class="btn tinker-button signup-btn secondary-btn">Sign Up</a>
+          <a href="admin/login.html" id="header-login-link" class="btn tinker-button login-btn">Login</a>
+          <a href="profile.html" id="header-profile-link" class="btn tinker-button profile-btn" style="display: none;">My Profile</a>
+
+          <!-- ** NEW: Home Link Button (Hidden by default) ** -->
+          <a href="index.html" id="header-home-link" class="btn tinker-button home-btn" style="display: none;" aria-label="Go to Homepage">Home</a>
+
+          <!-- Menu Toggle Button (Visible by default, hidden on other pages by JS) -->
+          <button id="menu-open" class="btn menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="menu-overlay">Menu</button>
+      </div>
+  </div>
+</header>
+<div class="header-spacer"></div>
