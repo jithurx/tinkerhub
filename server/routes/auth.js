@@ -32,13 +32,9 @@ router.post('/login', async (req, res) => {
     }
     try {
         const user = await User.findOne({ email: email.toLowerCase() }).select('+password');
-        if (!user) {
-            return res.status(401).json({ success: false, message: 'Invalid credentials' }); // Generic message
-        }
+        if (!user) { return res.status(401).json({ success: false, message: 'Invalid credentials' }); }
         const isMatch = await user.matchPassword(password);
-        if (!isMatch) {
-            return res.status(401).json({ success: false, message: 'Invalid credentials' }); // Generic message
-        }
+        if (!isMatch) { return res.status(401).json({ success: false, message: 'Invalid credentials' }); }
         const token = user.getSignedJwtToken();
         if (!token) {
              console.error("FATAL: Token generation failed. Check JWT_SECRET/JWT_EXPIRES_IN environment variables.");
@@ -63,21 +59,9 @@ router.post('/signup', async (req, res) => {
 
     try {
         const existingUser = await User.findOne({ email: email.toLowerCase() });
-        if (existingUser) {
-            // Don't reveal that the email is taken for security, use a more general message
-            return res.status(400).json({ success: false, message: 'Unable to register with this email.' });
-        }
-
-        // Create user - Role defaults to 'student' from model schema
+        if (existingUser) { return res.status(400).json({ success: false, message: 'Unable to register with this email.' }); }
         const user = await User.create({ name, email: email.toLowerCase(), password });
-
-        // Send success message (don't log in automatically unless desired)
-        res.status(201).json({
-            success: true,
-            message: 'Registration successful! You can now log in.',
-            userId: user._id // Optionally return ID
-        });
-
+        res.status(201).json({ success: true, message: 'Registration successful! You can now log in.', userId: user._id });
     } catch (error) {
         handleServerError(res, error, 'public user registration');
     }
@@ -88,27 +72,15 @@ router.post('/signup', async (req, res) => {
 // @route   POST /api/auth/register
 // @access  Private (Admin Only)
 router.post('/register', protect, adminOnly, async (req, res) => {
-   const { name, email, password, role } = req.body; // Admin can specify role
-
-   // Validation
+   const { name, email, password, role } = req.body;
    if (!name || !email || !password) { return res.status(400).json({ success: false, message: 'Please provide name, email, and password' }); }
    if (password.length < 6) { return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long' }); }
    if (role && !['student', 'admin'].includes(role)) { return res.status(400).json({ success: false, message: 'Invalid role specified' }); }
-
    try {
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) { return res.status(400).json({ success: false, message: 'User with this email already exists' }); }
-
-     // Create user, allowing admin to set role (defaults to student if role is omitted/invalid)
-     const user = await User.create({
-         name,
-         email: email.toLowerCase(),
-         password,
-         role: (role && ['admin', 'student'].includes(role)) ? role : 'student'
-     });
-
+     const user = await User.create({ name, email: email.toLowerCase(), password, role: (role && ['admin', 'student'].includes(role)) ? role : 'student' });
      res.status(201).json({ success: true, message: 'User registered successfully by admin', userId: user._id });
-
    } catch (error) {
      handleServerError(res, error, 'admin user registration');
    }
@@ -118,12 +90,68 @@ router.post('/register', protect, adminOnly, async (req, res) => {
 // @route   GET /api/auth/me
 // @access  Private (Requires login)
 router.get('/me', protect, async (req, res) => {
-    // req.user is populated by 'protect' middleware and excludes password
-    if (!req.user) {
-         return res.status(404).json({ success: false, message: 'User not found (token valid but user deleted?)' });
-    }
+    if (!req.user) { return res.status(404).json({ success: false, message: 'User not found' }); }
     res.status(200).json({ success: true, data: req.user });
 });
+
+
+// --- ** ADDED THIS MISSING ROUTE BACK IN ** ---
+// @desc    Update user profile details for the logged-in user
+// @route   PUT /api/auth/me
+// @access  Private (Requires login)
+router.put('/me', protect, async (req, res) => {
+    try {
+        // User document is attached to req.user by 'protect' middleware
+        // Fetch it again using the ID from the token to ensure we have the latest version
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            // This case implies the user was deleted after the token was issued but before this request
+            return res.status(404).json({ success: false, message: 'User not found' });
+        }
+
+        // Define fields allowed to be updated from request body
+        const allowedUpdates = [ 'name', 'about', 'profilePictureUrl', 'socials', 'programmingLanguages' ];
+
+        // Update user fields based on request body
+        allowedUpdates.forEach(field => {
+            if (req.body[field] !== undefined) {
+                 // Special handling for object/array fields
+                 if (field === 'socials') {
+                      if (typeof req.body.socials === 'object' && req.body.socials !== null) {
+                           user.socials = { // Replace socials object
+                                github: req.body.socials.github,
+                                linkedin: req.body.socials.linkedin,
+                                instagram: req.body.socials.instagram
+                           };
+                      } else if (req.body.socials === null) { user.socials = undefined; } // Clear socials
+                 } else if (field === 'programmingLanguages') {
+                      if (Array.isArray(req.body.programmingLanguages)) {
+                           // Replace entire array - ensure items match schema
+                           user.programmingLanguages = req.body.programmingLanguages;
+                      } else if (req.body.programmingLanguages === null || req.body.programmingLanguages.length === 0) {
+                           user.programmingLanguages = []; // Clear languages
+                      }
+                 } else {
+                    user[field] = req.body[field]; // Update standard fields
+                 }
+            }
+        });
+
+        // Save the updated user document (triggers validation)
+        const updatedUser = await user.save();
+
+        // Return updated user data (excluding password)
+        const responseUser = updatedUser.toObject();
+        delete responseUser.password; // Ensure password isn't sent back
+
+        res.status(200).json({ success: true, data: responseUser });
+
+    } catch (error) {
+        handleServerError(res, error, 'updating profile'); // Use error handler
+    }
+});
+// --- ** END OF ADDED ROUTE ** ---
 
 
 module.exports = router; // Export the router
