@@ -858,3 +858,69 @@ body.page-transition-enter {
 
 /* Add FontAwesome if using icons (ensure you link FA in your HTML head) */
 /* @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"); */
+
+/* Styles for Admin Controls already exist */
+/* .admin-controls { ... keep existing ... } */
+/* .admin-controls h4 { ... keep existing ... } */
+/* #admin-moments-list button { ... keep existing ... } Delete button on list */
+
+/* Style the new file upload form group */
+.admin-moment-upload-form {
+    display: flex;
+    flex-direction: column; /* Stack elements */
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dotted #ccc;
+}
+.file-upload-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align left */
+    gap: 0.5rem;
+}
+.file-upload-group label {
+    font-weight: 500;
+    font-size: 0.9em;
+}
+/* Preview thumbnail style */
+.moment-preview-thumb {
+    max-width: 150px; /* Limit preview size */
+    max-height: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    object-fit: cover;
+    margin-top: 5px;
+}
+/* Upload status style (reuse from dashboard) */
+.upload-status {
+    font-size: 0.85em;
+    font-style: italic;
+    color: #555;
+    min-height: 1.1em;
+}
+.upload-status.uploading { color: var(--color-primary); }
+.upload-status.success { color: green; }
+.upload-status.error { color: red; }
+
+/* Style the submit button */
+.admin-moment-upload-form button[type="submit"] {
+    align-self: flex-start; /* Align button left */
+    margin-top: 0.5rem;
+}
+
+/* Style delete buttons on the main gallery list */
+#current-moments-list li { /* Ensure list items have relative positioning */
+    position: relative;
+}
+#current-moments-list button.delete-moment-btn {
+    position: absolute;
+    top: 5px; right: 5px;
+    background-color: rgba(255, 0, 0, 0.6);
+    color: white; border: none; border-radius: 50%;
+    width: 18px; height: 18px; font-size: 11px; line-height: 16px;
+    text-align: center; cursor: pointer; opacity: 0; transition: opacity 0.2s;
+}
+#current-moments-list li:hover button.delete-moment-btn {
+    opacity: 1;
+}

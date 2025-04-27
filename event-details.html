@@ -90,22 +90,42 @@
                 </div>
             </div>
 
-            <!-- Moments Gallery Section -->
             <section id="moments-section" class="moments-section" style="display: none;">
                 <h2 class="section-title">Event Moments</h2>
 
-                <!-- **NEW** Admin Controls for Moments (Initially Hidden) -->
-                <div id="admin-moments-controls" class="admin-controls">
+                <!-- **UPDATED** Admin Controls for Moments -->
+                <div id="admin-moments-controls" class="admin-controls" style="display: none;">
                     <h4>Add/Remove Moments (Admin)</h4>
-                    <form id="admin-add-moment-form">
-                        <label for="admin-new-moment-url" class="sr-only">Add Image URL</label>
-                        <input type="url" id="admin-new-moment-url" placeholder="Paste image URL here and click Add" required>
-                        <button type="submit" class="btn tinker-button secondary-btn">Add Moment</button>
-                    </form>
-                     <div id="admin-status"></div> <!-- Status for admin actions -->
-                </div>
 
-                <!-- Gallery Display -->
+                    <!-- Form to UPLOAD a new moment image -->
+                    <form id="admin-add-moment-form" class="admin-moment-upload-form">
+                        <div class="form-group file-upload-group">
+                            <label for="admin-new-moment-file">Upload New Moment Image:</label>
+                            <!-- File Input -->
+                            <input type="file" id="admin-new-moment-file" name="momentFile" accept="image/*" required>
+                            <!-- Preview Area -->
+                            <img id="admin-moment-preview" src="#" alt="Image Preview" class="moment-preview-thumb" style="display: none;">
+                             <!-- Upload Status -->
+                             <span id="admin-moment-upload-status" class="upload-status" aria-live="polite"></span>
+                             <small>Select an image file (JPG, PNG, etc. Max ~5MB).</small>
+                        </div>
+                         <!-- The button is now essentially "Upload & Add" -->
+                        <button type="submit" class="btn tinker-button secondary-btn">Upload & Add</button>
+                    </form>
+
+                     <!-- Status for Add/Delete actions -->
+                     <div id="admin-status"></div>
+
+                    <!-- List of current moments (for deletion) -->
+                    <h4>Current Moments:</h4>
+                    <ul id="current-moments-list">
+                         <!-- Populated by JS -->
+                        <li>Loading...</li>
+                    </ul>
+                </div> <!-- End #admin-moments-controls -->
+
+
+                <!-- Gallery Display (populated by JS) -->
                 <div id="moments-gallery-status" class="status-message">Loading moments...</div>
                 <div id="moments-gallery" class="moments-gallery">
                     <!-- Gallery images (with delete buttons for admin) loaded here -->
@@ -118,6 +138,6 @@
     <div id="footer"> <!-- ... Footer HTML ... --> </div>
 
     <script src="js/main.js"></script>
-    <script src="js/event-details.js"></script> <!-- Event Details specific JS -->
+    <script src="js/event-details.js"></script>
 </body>
 </html>
