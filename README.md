@@ -1,4 +1,4 @@
-# 🚀 TinkerHub Campus Hub - WebFusion Final Project 🚀
+# TinkerHub Campus Hub - WebFusion Final Project 🚀
 
 Hey there! 👋 This is my final project submission for the TinkerHub WebFusion program. The goal was to dive deep, apply the skills learned throughout the program, and build a functional and engaging website for a hypothetical TinkerHub Campus Community (specifically, NSSCE).
 
