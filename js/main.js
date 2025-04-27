@@ -8,6 +8,10 @@
  * - Sets current year in footer
  */
 
+// --- API Base URL (Needed for ping) ---
+const API_BASE_URL = 'https://tinkerhub-0pse.onrender.com';
+// const API_BASE_URL = 'http://localhost:5000'; // For local testing
+
 // --- Helper Function to Ensure Menu is Closed on Load/Show ---
 function ensureMenuClosed() {
     const overlay = document.getElementById('menu-overlay');
@@ -246,9 +250,64 @@ function initPageTransitions() {
 }
 
 
+// --- **NEW** Function to Ping Backend ---
+async function pingBackend() {
+    // Use a simple, lightweight endpoint like the API root or a dedicated /ping route
+    const pingUrl = `${API_BASE_URL}/api`; // Or use `${API_BASE_URL}/` if your root returns something
+    console.log(`Pinging backend at ${pingUrl}...`);
+    try {
+        // Send a simple GET request. We don't really care about the response,
+        // just making the request to wake up the Render instance.
+        // Add a timeout in case the backend takes *very* long to respond initially
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout for ping
+
+        const response = await fetch(pingUrl, { signal: controller.signal });
+        clearTimeout(timeoutId); // Clear timeout if fetch completed
+
+        if (!response.ok) {
+            // Log error but don't block page load
+            console.warn(`Backend ping failed: ${response.status} ${response.statusText}`);
+        } else {
+            console.log("Backend ping successful.");
+        }
+    } catch (error) {
+         if (error.name === 'AbortError') {
+             console.warn("Backend ping timed out (15s). Instance might still be waking up.");
+         } else {
+            // Log other fetch errors but don't block page load
+            console.warn("Error during backend ping:", error);
+         }
+    }
+}
+
+// --- **NEW** Function to Hide Loading Screen ---
+function hideLoadingScreen() {
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        console.log("Hiding loading screen...");
+        overlay.classList.add('hidden');
+        // Optional: Add class to body to fade in main content
+        // document.body.classList.add('loaded');
+        // Remove overlay from DOM after transition for better performance/accessibility
+        setTimeout(() => {
+            overlay.remove();
+             console.log("Loading overlay removed from DOM.");
+        }, 900); // Should be slightly longer than CSS transition (0.8s)
+    }
+}
+
+
 // --- App Initialization on DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("DOMContentLoaded event fired.");
+
+    // --- ** START: Loading Screen & Ping Logic ** ---
+    const minimumLoadingTime = 1500; // Show loading screen for at least 1.5 seconds
+    const startTime = Date.now();
+
+    // Send the wake-up ping request (don't await it here, let it run in background)
+    const pingPromise = pingBackend();
 
     // --- Load Components ---
     // Wait for both components to finish attempting to load
@@ -264,7 +323,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     ensureMenuClosed();     // Reset menu state visually
     initMenuToggle();       // Attach menu button listeners
     initSmoothScroll();     // Setup smooth scrolling
-    initPageTransitions();  // Setup page transition logic (initial part)
+    // initPageTransitions();  // Delay this until loading screen is gone
     setCurrentYear();       // Set footer year
     updateAuthVisibility(); // Set initial Login/Signup/Profile visibility
     updateHeaderButton();   // Set initial Menu/Home button visibility
@@ -281,7 +340,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    console.log("Initial page setup complete via DOMContentLoaded.");
+    // --- ** END: Loading Screen Hiding Logic ** ---
+    // Calculate how much time has passed
+    const elapsedTime = Date.now() - startTime;
+    const remainingTime = minimumLoadingTime - elapsedTime;
+
+    // Wait for the ping OR the minimum display time, whichever is longer
+    Promise.all([pingPromise, new Promise(resolve => setTimeout(resolve, remainingTime > 0 ? remainingTime : 0))])
+        .then(() => {
+            hideLoadingScreen();
+            // Initialize things that might depend on correct layout AFTER loading screen is gone
+             initPageTransitions(); // Start page transitions now
+        });
+
+    console.log("Initial page setup sequence started.");
 }); // End DOMContentLoaded Listener
 
 

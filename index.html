@@ -16,9 +16,56 @@
         #header-profile-link, #menu-profile-link { display: none; }
         #header-signup-link, #header-login-link, #menu-login-link, #menu-signup-link { display: inline-block; }
         #menu-login-link, #menu-signup-link, #menu-profile-link { display: block; } /* Ensure menu links are block */
+        /* --- Loading Screen Styles --- */
+        #loading-overlay {
+            position: fixed; /* Cover the entire viewport */
+            inset: 0; /* top, right, bottom, left = 0 */
+            background-color: var(--color-bg, #FAF2DE); /* Use theme background */
+            z-index: 10000; /* Highest z-index */
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.8s ease-out; /* Fade out transition */
+            text-align: center;
+        }
+        #loading-overlay.hidden {
+            opacity: 0;
+            pointer-events: none; /* Allow clicks through when hidden */
+        }
+        /* Simple Spinner Animation */
+        .loader {
+            border: 6px solid #f3f3f3; /* Light grey */
+            border-top: 6px solid var(--color-primary, #5F5CE5); /* Theme color */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Loading Text Style */
+        #loading-overlay p {
+             font-family: 'Bebas Neue', sans-serif; /* Or your preferred font */
+             font-size: 1.3rem;
+             color: var(--color-text);
+             letter-spacing: 1px;
+        }
+        /* Hide main content initially (optional, prevents flash) */
+        /* body > *:not(#loading-overlay) { opacity: 0; transition: opacity 0.5s ease-in; } */
+        /* body.loaded > *:not(#loading-overlay) { opacity: 1; } */
     </style>
 </head>
 <body>
+     <!-- ** NEW: Loading Overlay ** -->
+     <div id="loading-overlay">
+        <div class="loader"></div>
+        <p>Waking up the servers... Hang tight!</p>
+    </div>
     <!-- Navbar Placeholder -->
     <div id="navbar">
         <header class="site-header">
