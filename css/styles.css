@@ -83,6 +83,45 @@ a:hover {
   box-shadow: 2px 2px 0px var(--color-border); /* Hard shadow */
 }
 
+/* Container for right-side header buttons */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Consistent sizing for ALL buttons in header actions */
+.site-header .header-actions .btn,
+.site-header .header-actions .tinker-button {
+padding: 0.6rem 1.2rem;
+font-size: 0.95rem;
+flex-shrink: 0;
+}
+
+/* Specific style for the menu toggle button */
+.site-header .menu-btn {
+background-color: var(--color-border);
+color: var(--color-bg);
+box-shadow: 2px 2px 0px var(--color-secondary);
+}
+.site-header .menu-btn:hover {
+background-color: var(--color-accent2);
+color: var(--color-border);
+box-shadow: 3px 3px 0px var(--color-border);
+}
+
+/* ** NEW: Optional Style for the Home link button ** */
+.site-header .home-btn {
+  background-color: var(--color-primary); /* Example: Use primary color */
+  color: var(--color-bg);
+  box-shadow: 2px 2px 0px var(--color-accent1); /* Example shadow */
+}
+.site-header .home-btn:hover {
+  background-color: darken(var(--color-primary), 10%);
+  color: var(--color-bg);
+   box-shadow: 3px 3px 0px var(--color-accent1);
+}
+
 .btn:hover, button[type="submit"]:hover, .tinker-button:hover {
   background-color: var(--color-accent1); /* Yellow on hover */
   color: var(--color-border);
