@@ -4,23 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile | TinkerHub Campus</title>
+    <!-- Main Stylesheet -->
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Link the NEW edit-profile specific CSS -->
+    <!-- Edit Profile Specific Styles -->
     <link rel="stylesheet" href="css/edit-profile.css">
+    <!-- Font Awesome (if used for social icons, though profile.js doesn't add them here) -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"> -->
     <!-- Favicon Placeholder -->
     <!-- <link rel="icon" href="images/favicon.ico" type="image/x-icon"> -->
 </head>
 <body>
-     <!-- Navbar Placeholder (Consistent Header) -->
+     <!-- Navbar Placeholder (Ensure main.js loads components/navbar.html here) -->
     <div id="navbar">
+         <!-- Static Fallback Header -->
          <header class="site-header">
             <div class="navbar-container">
                 <a href="index.html" class="navbar-logo-link" aria-label="Homepage">
                     <img src="images/logo.png" alt="TinkerHub Campus Logo" class="navbar-logo">
                 </a>
-                <!-- Actions can be simplified or customized for this page -->
+                <!-- Actions simplified for edit page -->
                  <div class="header-actions">
                      <a href="profile.html" class="btn tinker-button">View Profile</a>
+                     <!-- Menu button might still be needed if menu overlay is used -->
                      <button id="menu-open" class="btn menu-btn">Menu</button>
                  </div>
             </div>
@@ -28,9 +33,8 @@
         <div class="header-spacer"></div>
     </div>
 
-    <!-- Menu Overlay (Include if using dynamic loading, otherwise copy from index.html) -->
+    <!-- Menu Overlay (Include structure if not loading navbar dynamically) -->
     <div id="menu-overlay" class="menu-overlay">
-        <!-- ... Menu HTML ... -->
          <nav class="menu-nav">
             <a class="logo" href="https://tinkerhub.org/" target="_blank" rel="noopener noreferrer" aria-label="TinkerHub Main Website"><img src="images/logo.png" width="120" alt="TinkerHub Logo" /></a>
             <a class="menu_l home" href="index.html">Home Base</a>
@@ -38,7 +42,12 @@
             <a class="menu_l events" href="events.html">Happenings</a>
             <a class="menu_l resources" href="resources.html">Tool Shed</a>
             <a class="menu_l forum" href="forum.html">Idea Exchange</a>
-            <a class="menu_l profile" href="profile.html">My Profile</a>
+            <!-- Highlight profile link as active -->
+            <a class="menu_l profile active" href="profile.html">My Profile</a>
+             <!-- Login/Signup/Dashboard links controlled by JS -->
+             <a class="menu_l signup" id="menu-signup-link" href="signup.html" style="display: none;">Sign Up</a>
+             <a class="menu_l login" id="menu-login-link" href="admin/login.html" style="display: none;">Login / Admin</a>
+             <a class="menu_l dashboard" id="menu-dashboard-link" href="admin/dashboard.html" style="display: none;">Admin Dashboard</a>
             <div class="contact-container"><a class="contact tinker-button" href="contact.html">Reach Out</a></div>
         </nav>
         <button id="menu-close" class="menu-close" aria-label="Close menu">×</button>
@@ -48,40 +57,52 @@
     <main class="edit-profile-container">
         <h1 class="edit-profile-title">Edit Your Profile</h1>
 
-        <!-- Status Message Area -->
+        <!-- Status Message Area (for loading and save results) -->
         <div id="edit-profile-status" class="form-status" role="alert" aria-live="assertive">
-            <p>Loading current profile...</p>
+            <p>Loading current profile...</p> <!-- Initial message -->
         </div>
 
-        <!-- Edit Form -->
-        <form id="edit-profile-form" style="display: none;"> <!-- Hide until data loaded -->
+        <!-- Edit Form (Hidden until data loads) -->
+        <form id="edit-profile-form" style="display: none;" novalidate>
 
-            <div class="form-section">
+            <!-- Basic Info Section -->
+            <section class="form-section">
                 <h3>Basic Info</h3>
                 <div class="form-group">
                     <label for="edit-name">Name:</label>
-                    <input type="text" id="edit-name" name="name" required>
+                    <input type="text" id="edit-name" name="name" required aria-required="true">
                 </div>
                 <div class="form-group">
                     <label for="edit-email">Email:</label>
-                    <input type="email" id="edit-email" name="email" disabled> <!-- Disable email editing -->
-                    <small>Email cannot be changed.</small>
+                    <input type="email" id="edit-email" name="email" disabled aria-describedby="email-help"> <!-- Disable email editing -->
+                    <small id="email-help">Email cannot be changed.</small>
                 </div>
-                 <div class="form-group">
-                    <label for="edit-profilePictureUrl">Profile Picture URL:</label>
-                    <input type="url" id="edit-profilePictureUrl" name="profilePictureUrl" placeholder="https://example.com/image.png">
+                 <!-- Profile Picture Upload Section -->
+                 <div class="form-group profile-pic-group">
+                    <label for="edit-profilePicFile">Profile Picture:</label>
+                    <!-- Preview Image -->
+                    <img id="profile-pic-preview" src="images/default-avatar.png" alt="Current profile picture preview" class="profile-picture-preview">
+                    <!-- Actual File Input -->
+                    <input type="file" id="edit-profilePicFile" name="profilePicFile" accept="image/png, image/jpeg, image/gif, image/webp" aria-describedby="pic-help">
+                    <!-- Hidden input to store the Cloudinary URL -->
+                    <input type="hidden" id="edit-profilePictureUrl" name="profilePictureUrl">
+                    <!-- Upload Status Indicator -->
+                    <span id="profile-pic-upload-status" class="upload-status" aria-live="polite"></span>
+                     <small id="pic-help">Select a new image file (JPG, PNG, GIF, WEBP). Max 2MB advised.</small>
                 </div>
-            </div>
+            </section>
 
-            <div class="form-section">
+            <!-- About Section -->
+            <section class="form-section">
                  <h3>About Me</h3>
-                 <div class="form-group">
+                 <div class="form-group full-width"> <!-- Example using full-width class -->
                      <label for="edit-about">Bio:</label>
-                     <textarea id="edit-about" name="about" rows="4" maxlength="500" placeholder="Tell us a bit about yourself..."></textarea>
+                     <textarea id="edit-about" name="about" rows="4" maxlength="500" placeholder="Tell the community a bit about yourself..."></textarea>
                  </div>
-            </div>
+            </section>
 
-             <div class="form-section">
+            <!-- Social Links Section -->
+             <section class="form-section">
                 <h3>Social Links</h3>
                  <div class="form-group">
                     <label for="edit-social-github">GitHub URL:</label>
@@ -95,37 +116,46 @@
                     <label for="edit-social-instagram">Instagram URL:</label>
                     <input type="url" id="edit-social-instagram" name="socials.instagram" placeholder="https://instagram.com/username">
                  </div>
-                 <!-- Add inputs for other socials if needed -->
-            </div>
+                 <!-- Add inputs for other socials (e.g., twitter, website) if needed -->
+            </section>
 
-            <div class="form-section">
-                <h3>Programming Languages</h3>
+            <!-- Programming Languages Section -->
+            <section class="form-section">
+                <h3>Programming Languages / Skills</h3>
+                <!-- Container for dynamic language inputs -->
                 <div id="edit-language-list">
-                    <!-- Language inputs dynamically added here -->
                     <p>Loading languages...</p>
                 </div>
-                 <button type="button" id="add-language-btn" class="btn tinker-button secondary-btn">Add Language</button>
-            </div>
+                <!-- Button to add more language fields -->
+                 <button type="button" id="add-language-btn" class="btn tinker-button secondary-btn">
+                    <i class="fas fa-plus" aria-hidden="true"></i> Add Language <!-- Example using Font Awesome -->
+                </button>
+            </section>
 
-
+            <!-- Form Actions -->
             <div class="form-actions">
-                <button type="submit" class="btn tinker-button save-btn">Save Changes</button>
                 <a href="profile.html" class="btn tinker-button cancel-btn">Cancel</a>
+                <button type="submit" class="btn tinker-button save-btn">Save Changes</button>
             </div>
 
-        </form>
+        </form> <!-- End #edit-profile-form -->
     </main>
 
      <!-- Footer Placeholder -->
     <div id="footer">
-         <footer class="site-footer">
-             <!-- ... Footer HTML ... -->
+         <!-- Static Fallback Footer -->
+         <footer class="site-footer" style="margin-top: 3rem;">
+              <div class="footer-container">
+                 <p class="footer-copyright">© <span id="current-year"></span> TinkerHub NSSCE</p>
+                 <div class="footer-credits"><a href="https://jithu.dev/" id="dev" target="_blank">crafted by @jithu</a></div>
+              </div>
          </footer>
      </div>
 
 
+    <!-- Load Main JS first for shared functions -->
     <script src="js/main.js"></script>
-    <!-- Link the NEW edit-profile specific JS -->
+    <!-- Load Edit Profile specific JS -->
     <script src="js/edit-profile.js"></script>
 </body>
 </html>

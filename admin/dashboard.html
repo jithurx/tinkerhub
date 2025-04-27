@@ -6,57 +6,342 @@
     <title>Admin Dashboard | TinkerHub Campus</title>
     <!-- Link to the main stylesheet -->
     <link rel="stylesheet" href="../css/styles.css" />
-     <!-- Add Favicon link if you have one -->
+     <!-- Favicon Placeholder -->
     <!-- <link rel="icon" href="../images/favicon.ico" type="image/x-icon"> -->
      <style>
-        /* Optional: Minor style adjustments specific to dashboard */
-        .dashboard h1 { margin-top: 1rem; }
-        .dashboard nav { flex-wrap: wrap; } /* Allow buttons to wrap on smaller screens */
-        .form-group { display: flex; flex-direction: column; gap: 0.3rem; flex-basis: calc(50% - 0.5rem); /* Two columns layout */ }
-        .form-group label { font-weight: 500; font-size: 0.9em; }
-        #create-form { flex-direction: row; align-items: flex-end; /* Align button with inputs */ }
-        #create-form button { margin-top: 1rem; /* Add space above button */ }
-        .item-list { margin-top: 1.5rem; }
-        .item-details span { display: block; /* Put each detail on new line */ margin-bottom: 0.2rem; font-size: 0.9em; }
-        .item-details strong { color: var(--color-primary); }
-        .item-actions { margin-left: auto; /* Push actions to the right */ white-space: nowrap; }
-        .dashboard li { align-items: flex-start; } /* Align items top */
+        /* --- Dashboard Specific Styles --- */
+        /* Apply a slightly different background */
+        body { background-color: #f8f9fa; }
 
-         @media (max-width: 600px) {
-             .form-group { flex-basis: 100%; } /* Full width inputs on small screens */
+        /* Main Dashboard Container */
+        .dashboard { max-width: 1100px; margin: 0 auto; padding: 1rem; } /* Remove top margin */
+
+        /* Dashboard Header (Manual Styling - Adjust if needed) */
+        .dashboard-header {
+            padding: 0.8rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid var(--color-border);
+            background-color: rgba(250, 242, 222, 0.95); /* Match theme slightly */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; /* Make header sticky */
+            top: 0;
+            z-index: 1010; /* Above main content but below modals */
+        }
+        .dashboard-header img { height: 35px; display: block; }
+        .dashboard-header span { font-family: 'Anton', sans-serif; font-size: 1.3rem; color: var(--color-text); }
+        .dashboard-header button#logout-btn {
+             background-color: #dc3545; color: white; padding: 0.4rem 0.8rem;
+             font-size: 0.9rem; border-color: darken(#dc3545, 10%);
+        }
+         .dashboard-header button#logout-btn:hover { background-color: darken(#dc3545, 10%); }
+
+
+        /* Section Navigation */
+        .dashboard nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem; /* Add margin below sticky header */
+            margin-bottom: 2rem;
+            border-bottom: 2px dashed var(--color-border);
+            padding-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+         /* Active Navigation Button Style */
+        .dashboard nav button.active {
+            background-color: var(--color-accent1); /* Yellow */
+            color: var(--color-text);
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 0 var(--color-border);
+            border-color: var(--color-border);
+        }
+
+        /* Main Content Area */
+        #section-container {
+            background: #ffffff; /* White background for content */
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* Softer shadow */
+            border: 1px solid #e0e0e0;
+            min-height: 400px; /* Ensure it has some height */
+        }
+        #section-container h2 { /* Section Title (e.g., Manage Events) */
+             font-family: 'Bebas Neue', sans-serif;
+             font-size: 1.8rem;
+             margin-bottom: 1.5rem;
+             padding-bottom: 0.5rem;
+             color: var(--color-primary);
+             border-bottom: 2px solid var(--color-primary);
+             display: inline-block;
          }
+         #section-container h3 { /* Sub-headers (e.g., Add New, Existing) */
+             font-family: 'Instrument Serif', serif;
+             font-size: 1.4rem;
+             margin-top: 1.5rem;
+             margin-bottom: 1rem;
+             color: #333;
+             border-bottom: 1px dotted #ccc;
+             padding-bottom: 0.3rem;
+         }
+
+        /* Create Form Styling */
+        #create-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #fdfdfd;
+            border: 1px dashed #d0d0d0;
+            border-radius: 6px;
+        }
+         #create-form h3 { margin-top: 0; margin-bottom: 1rem; width: 100%; font-size: 1.5rem;}
+         #create-form button[type="submit"] {
+            margin-top: 1rem;
+            margin-left: auto; /* Push to right */
+            padding: 0.7rem 1.5rem;
+        }
+
+
+        /* General Form Group Styling (Create and Edit) */
+        .form-group {
+             display: flex;
+             flex-direction: column;
+             gap: 0.3rem;
+             flex-grow: 1;
+             flex-basis: 100%; /* Default full width */
+             margin-bottom: 0.5rem; /* Add space between rows */
+         }
+         /* Apply two-column layout using CSS Grid for better control */
+         @media (min-width: 768px) {
+            #create-form, #edit-form-fields { /* Apply grid to the container of form groups */
+                 display: grid;
+                 grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+                 gap: 1rem; /* Gap between columns and rows */
+             }
+             #create-form h3, #edit-form h3,
+             .form-group.full-width {
+                 grid-column: 1 / -1; /* Make title and full-width groups span both columns */
+             }
+              /* Specific adjustments for button alignment in create form */
+             #create-form .form-group.full-width:last-of-type {
+                  grid-column: 1 / -1;
+                  display: flex;
+                  justify-content: flex-end; /* Push button right */
+             }
+              #create-form button[type="submit"] {
+                  width: auto; /* Allow button to size naturally */
+                  margin-left: 0;
+              }
+         }
+         @media (max-width: 767px) {
+             #create-form, #edit-form-fields { /* Stack vertically on mobile */
+                  display: flex;
+                  flex-direction: column;
+              }
+               #create-form button[type="submit"] { width: 100%; margin-left: 0;}
+         }
+
+
+        .form-group label { font-weight: 500; font-size: 0.9em; }
+        .form-group label .required-star { color: red; margin-left: 2px; } /* Style required indicator */
+        .form-group input, .form-group textarea {
+            width: 100%; box-sizing: border-box; padding: 0.7rem;
+            border: 1px solid #ccc; border-radius: 4px;
+            font-family: 'General Sans', sans-serif; font-size: 1rem;
+        }
+         .form-group input:focus, .form-group textarea:focus {
+             outline: none; border-color: var(--color-primary);
+             box-shadow: 0 0 0 2px rgba(95, 92, 229, 0.2);
+         }
+         .form-group textarea { resize: vertical; min-height: 80px; }
+         .form-group small { font-size: 0.8em; color: #6c757d; margin-top: 0.2rem; }
+
+
+        /* Item List Styling */
+        .item-list { list-style: none; padding: 0; margin: 1.5rem 0 0 0; }
+        .item-list li {
+            background: #fff; padding: 1rem 1.2rem; margin-bottom: 1rem;
+            border: 1px solid #e8e8e8; border-radius: 6px; display: flex;
+            flex-wrap: wrap; justify-content: space-between; align-items: flex-start;
+            gap: 1rem; transition: opacity 0.3s ease; box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .item-details { flex-grow: 1; min-width: 200px; }
+        .item-details span { display: block; margin-bottom: 0.3rem; font-size: 0.9em; word-break: break-word; line-height: 1.4; }
+        .item-details strong { color: var(--color-primary); display: inline-block; min-width: 90px; font-weight: 600; margin-right: 5px; }
+        .item-details a { color: var(--color-primary); text-decoration: underline; }
+        .item-details a:hover { color: #333; }
+        /* Image preview in list */
+        .item-details img { max-height: 40px; vertical-align: middle; margin-right: 5px; border: 1px solid #ccc; border-radius: 3px;}
+
+        .item-actions {
+             margin-left: auto; white-space: nowrap; align-self: center;
+             display: flex; gap: 0.5rem; flex-wrap: wrap;
+        }
+        .item-actions button {
+            padding: 0.4rem 0.8rem; font-size: 0.9rem; cursor: pointer;
+            border-radius: 4px; border: 1px solid transparent;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        /* Refined button colors */
+        .item-actions .edit { background-color: #cfe2ff; border-color: #b6d4fe; color: #0a3678; }
+        .item-actions .edit:hover { background-color: #b6d4fe; }
+        .item-actions .manage-moments { background-color: #fff3cd; border-color: #ffe69c; color: #664d03; }
+        .item-actions .manage-moments:hover { background-color: #ffe69c; }
+        .item-actions .delete { background-color: #f8d7da; border-color: #f5c2c7; color: #842029; }
+        .item-actions .delete:hover { background-color: #f1c0c5; }
+
+
+        /* --- Edit Modal Styles --- */
+        .edit-modal-overlay, .moments-modal-overlay {
+            position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.6);
+            display: none; align-items: center; justify-content: center;
+            z-index: 2000; backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+            padding: 1rem; animation: fadeInModal 0.3s ease-out forwards;
+        }
+        .edit-modal-overlay.active, .moments-modal-overlay.active { display: flex; }
+        @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
+
+        .edit-modal-content, .moments-modal-content {
+            background-color: #fff; padding: 1.5rem 2rem; border-radius: 8px;
+            border: 2px solid var(--color-border);
+            max-width: 700px; width: 95%; max-height: 90vh; overflow-y: auto; position: relative;
+             transform: scale(0.95); opacity: 0;
+             animation: scaleUpModal 0.3s ease-out 0.1s forwards; /* Appear slightly after overlay */
+        }
+        .edit-modal-content { box-shadow: 6px 6px 0 var(--color-primary); }
+        .moments-modal-content { box-shadow: 6px 6px 0 var(--color-secondary); max-width: 600px; }
+         @keyframes scaleUpModal { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+         .edit-modal-content h3, .moments-modal-content h3 { margin-top: 0; margin-bottom: 1.5rem; text-align: center; font-family: 'Anton', sans-serif; font-size: 1.8rem; }
+         .edit-modal-content h3 { color: var(--color-primary); }
+         .moments-modal-content h3 { color: var(--color-secondary); font-size: 1.6rem; }
+         .moments-modal-event-title { font-size: 0.9em; color: #555; text-align: center; margin-top: -1rem; margin-bottom: 1.5rem; font-style: italic;}
+         .moments-modal-content h4 { font-family: 'Instrument Serif', serif; font-size: 1.1rem; margin-bottom: 0.5rem; color: #333; margin-top: 1rem; }
+
+         #edit-form, #add-moment-form { display: flex; flex-wrap: wrap; gap: 1rem; }
+         #add-moment-form { align-items: center; margin-bottom: 1rem; }
+         #add-moment-form input[type="url"] { flex-grow: 1; padding: 0.7rem; }
+         #add-moment-form button { flex-shrink: 0; padding: 0.65rem 1rem; }
+
+         #edit-form-fields { /* Container for dynamically added fields */
+             width: 100%;
+             display: grid; /* Use grid for edit form fields too */
+             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive columns */
+             gap: 1rem;
+          }
+          #edit-form-fields .form-group.full-width { grid-column: 1 / -1; }
+
+         /* Moments List in Modal */
+         #current-moments-list { list-style: none; padding: 0; max-height: 250px; overflow-y: auto; border: 1px solid #eee; border-radius: 4px; margin-bottom: 1rem; background: #fdfdfd; }
+         #current-moments-list li { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.8rem; border-bottom: 1px dotted #eee; font-size: 0.9em; }
+         #current-moments-list li:last-child { border-bottom: none; }
+         #current-moments-list span { word-break: break-all; padding-right: 0.5rem; flex-grow: 1; }
+         #current-moments-list button { padding: 0.2rem 0.5rem; font-size: 0.8rem; background-color: #f8d7da; border: 1px solid #f5c2c7; color: #842029; border-radius: 4px; cursor: pointer; flex-shrink: 0; }
+         #current-moments-list button:hover { background-color: #f1c0c5; }
+
+         /* Modal Action Buttons */
+         .edit-modal-actions, .moments-modal-actions { width: 100%; display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #eee; }
+
+         /* Modal Close Buttons */
+         .edit-modal-close-btn, .moments-modal-close-btn { position: absolute; top: 10px; right: 15px; font-size: 2rem; line-height: 1; background: none; border: none; color: #888; cursor: pointer; padding: 0.2rem; transition: color 0.2s; }
+         .edit-modal-close-btn:hover, .moments-modal-close-btn:hover { color: #333; }
+
+         /* Modal Status Divs */
+          #edit-status, #moments-status {
+              width: 100%; grid-column: 1 / -1; /* Span grid columns if inside form */
+              margin-top: 1rem; text-align: center; font-weight: bold; min-height: 1.2em;
+              padding: 0.5rem; border-radius: 4px; display: none; /* Hidden by default */
+          }
+          #edit-status.success, #moments-status.success { color: #0f5132; background-color: #d1e7dd; border: 1px solid #badbcc; }
+          #edit-status.error, #moments-status.error { color: #842029; background-color: #f8d7da; border: 1px solid #f5c2c7;}
+
+          /* Profile picture preview styles (reused from edit-profile.css) */
+          .profile-pic-group { align-items: flex-start; }
+          .profile-picture-preview { width: 80px; height: 80px; border-radius: 6px; object-fit: cover; border: 2px solid var(--color-border); margin-bottom: 0.5rem; background-color: #f0f0f0; }
+          .upload-status { font-size: 0.85em; font-style: italic; color: #555; min-height: 1.1em; }
+          .upload-status.uploading { color: var(--color-primary); }
+          .upload-status.success { color: green; }
+          .upload-status.error { color: red; }
+
     </style>
 </head>
 <body>
-    <!-- Simple Dashboard Header -->
-     <header style="padding: 0.8rem 1rem; text-align: center; border-bottom: 2px solid var(--color-border); background-color: rgba(250, 242, 222, 0.9); display: flex; justify-content: space-between; align-items: center;">
-        <a href="../index.html"> <!-- Link back to homepage -->
+    <!-- Dashboard Header -->
+     <header class="dashboard-header">
+        <a href="../index.html" aria-label="Back to Homepage">
             <img src="../images/logo.png" alt="TinkerHub Logo" style="height: 35px;">
         </a>
-        <span style="font-family: 'Anton', sans-serif; font-size: 1.3rem;">Admin Dashboard</span>
-        <button id="logout-btn" class="btn tinker-button" style="background-color: #dc3545; color: white; padding: 0.4rem 0.8rem; font-size: 0.9rem;">Logout</button>
+        <span>Admin Dashboard</span>
+        <button id="logout-btn" class="btn tinker-button" aria-label="Logout">Logout</button>
     </header>
 
     <main class="dashboard">
         <!-- Navigation between manageable sections -->
-        <nav>
+        <nav aria-label="Dashboard Sections">
             <button data-section="announcements" class="tinker-button">Announcements</button>
             <button data-section="events" class="tinker-button">Events</button>
             <button data-section="resources" class="tinker-button">Resources</button>
-            <!-- Add buttons for other sections like Users or Forum Messages if needed -->
+            <!-- <button data-section="users" class="tinker-button">Users</button> -->
         </nav>
 
         <!-- Container where section content (forms, lists) will be loaded -->
-        <section id="section-container">
-            <!-- Initial message or loading indicator -->
+        <section id="section-container" aria-live="polite">
             <p style="text-align: center; padding: 3rem; color: #777;">Select a section above to manage content.</p>
         </section>
     </main>
 
-    <!-- Link to the dashboard JavaScript file -->
-     <!-- Ensure the path is correct relative to admin/dashboard.html -->
-    <script src="js/dashboard.js"></script>
+    <!-- Edit Item Modal -->
+    <div id="edit-modal" class="edit-modal-overlay">
+        <div class="edit-modal-content">
+            <button id="edit-modal-close-btn" class="edit-modal-close-btn" aria-label="Close edit dialog">×</button>
+            <h3 id="edit-modal-title">Edit Item</h3>
+            <!-- Edit form structure -->
+            <form id="edit-form" novalidate>
+                <div id="edit-form-fields"> <!-- Fields dynamically injected here -->
+                    <p>Loading editor...</p>
+                </div>
+                 <div id="edit-status" role="alert" aria-live="assertive"></div>
+                 <div class="edit-modal-actions">
+                    <button type="button" id="edit-cancel-btn" class="btn tinker-button cancel-btn">Cancel</button>
+                    <button type="submit" id="edit-save-btn" class="btn tinker-button save-btn">Save Changes</button>
+                 </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- Note: The logout logic is now part of dashboard.js -->
+    <!-- Moments Management Modal -->
+    <div id="moments-modal" class="moments-modal-overlay">
+        <div class="moments-modal-content">
+            <button id="moments-modal-close-btn" class="moments-modal-close-btn" aria-label="Close moments dialog">×</button>
+            <h3>Manage Event Moments</h3>
+            <p id="moments-modal-event-title" class="moments-modal-event-title">Event: Loading...</p>
+
+            <h4>Current Moments:</h4>
+            <ul id="current-moments-list">
+                <li>Loading...</li> <!-- Populated by JS -->
+            </ul>
+
+            <h4>Add New Moment URL:</h4>
+            <form id="add-moment-form" novalidate>
+                <label for="new-moment-url" class="sr-only">New Image URL</label>
+                <input type="url" id="new-moment-url" placeholder="https://example.com/moment.jpg" required>
+                <button type="submit" class="btn tinker-button secondary-btn">Add URL</button>
+            </form>
+
+             <div id="moments-status" role="alert" aria-live="assertive"></div>
+
+            <div class="moments-modal-actions">
+                <button type="button" id="moments-cancel-btn" class="btn tinker-button cancel-btn">Close</button>
+                 <button type="button" id="moments-save-btn" class="btn tinker-button save-btn">Save Moments</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Link to the dashboard JavaScript file -->
+    <script src="js/dashboard.js"></script>
 </body>
 </html>
