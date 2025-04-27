@@ -2,7 +2,7 @@
 
 // Define the base URL for your API (Only needed here for the ping)
 // !!! IMPORTANT: Replace with your ACTUAL backend URL !!!
-const API_BASE_URL = 'YOUR_RENDER_BACKEND_URL_HERE'; // e.g., 'https://tinkerhub-nssce-api.onrender.com'
+const API_BASE_URL = 'https://tinkerhub-0pse.onrender.com'; // e.g., 'https://tinkerhub-nssce-api.onrender.com'
 // const API_BASE_URL = 'http://localhost:5000'; // For local testing
 
 // --- Function to Ping Backend (Fire-and-Forget) ---
