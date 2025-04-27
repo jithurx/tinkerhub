@@ -148,3 +148,45 @@
   flex-grow: 1; /* Push date down slightly if needed */
   margin-bottom: 0; /* Remove default bottom margin */
 }
+
+/* css/events.css */
+
+/* ... (keep existing styles for .events-page, .page-title, .section-title, etc.) ... */
+
+.event-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+}
+
+/* .loading-message { ... keep styles ... } */
+
+.event-card {
+  /* ... keep existing styles (background, border, shadow, etc.) ... */
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  text-decoration: none;
+  color: inherit;
+  height: 100%;
+  cursor: pointer; /* ** ADDED: Indicate card is clickable ** */
+}
+
+.event-card:hover {
+  transform: translateY(-5px) rotate(1deg);
+  box-shadow: 6px 6px 0px var(--color-primary);
+}
+
+/* Styling for the link wrapping cards (ensure it behaves correctly) */
+.event-list > a { /* Target links directly under the list */
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%; /* Make link fill the grid cell */
+}
+#past-events .event-card { /* Keep optional fade for past events */
+ opacity: 0.9;
+}
+#past-events a:hover .event-card {
+  opacity: 1;
+}
+
+/* ... (keep existing styles for .event-img-container, .event-img, .event-content, etc.) ... */

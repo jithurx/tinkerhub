@@ -64,7 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadEventData = async () => {
         setStatus(detailStatusDiv, 'Loading event details...');
         detailContentDiv.style.display = 'none'; // Hide content until loaded
-        momentsSection.style.display = 'none'; // Hide moments until loaded
+        momentsSection.style.display = 'none'; // Hide moments section initially
+        eventRegistrationDiv.style.display = 'none'; // Hide registration initially
         adminControlsDiv.style.display = 'none'; // Hide admin controls initially
 
         try {
@@ -103,32 +104,45 @@ document.addEventListener('DOMContentLoaded', () => {
             // Description
             eventDescriptionElement.innerHTML = escapeHTML(event.description || 'No description provided.').replace(/\n/g, '<br>');
 
+            clearStatus(detailStatusDiv); // Clear "Loading..." message
+            detailContentDiv.style.display = 'block'; // Show populated content
+
             // --- Conditional Display Logic ---
             const now = new Date();
+            // Check if date is valid AND in the past
             const isPast = eventDateObj && eventDateObj < now;
 
-            // Registration Link (Show only if upcoming and link exists)
-            if (!isPast && event.registrationLink && typeof event.registrationLink === 'string' && event.registrationLink.startsWith('http')) {
+            // ** Registration Link Logic **
+            // Show ONLY if event date is valid, date is in the future, AND link exists
+            if (eventDateObj && !isPast && event.registrationLink && event.registrationLink.startsWith('http')) {
                  eventRegistrationLink.href = event.registrationLink;
                  eventRegistrationDiv.style.display = 'block';
             } else {
                  eventRegistrationDiv.style.display = 'none';
             }
 
-            // --- Show Moments Section and Admin Controls (Simplified Logic) ---
-            // Always show the Moments section structure
-            momentsSection.style.display = 'block';
-            // Always attempt to load moments
-            loadMoments();
-            // Show Admin Controls ONLY if admin
-            adminControlsDiv.style.display = isAdmin ? 'block' : 'none';
-            if (isAdmin) {
-                setupAdminMomentHandlers(); // Attach listeners if controls shown
+            // ** Moments Section Logic **
+            // Show section if event is past OR if the user is an admin
+            if (isPast || isAdmin) {
+                momentsSection.style.display = 'block';
+                 // Load gallery content ONLY if event is actually past
+                if (isPast) {
+                    loadMoments();
+                } else {
+                     // Upcoming event, but admin is viewing
+                     setStatus(momentsStatusDiv, 'Moments can be added/viewed after the event.', false);
+                     momentsGallery.innerHTML = ''; // Keep gallery empty
+                }
+                 // Show Admin Controls within the moments section ONLY if admin
+                 adminControlsDiv.style.display = isAdmin ? 'block' : 'none';
+                 if (isAdmin) {
+                     setupAdminMomentHandlers(); // Attach listeners if controls shown
+                 }
+            } else {
+                 // Hide section completely if not past and not admin
+                 momentsSection.style.display = 'none';
             }
             // --- End Conditional Display Logic ---
-
-            clearStatus(detailStatusDiv); // Clear "Loading..." message
-            detailContentDiv.style.display = 'block'; // Show populated content
 
         } catch (error) {
             console.error('Error loading event details:', error);
