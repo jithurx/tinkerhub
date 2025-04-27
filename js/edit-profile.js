@@ -79,8 +79,22 @@ document.addEventListener('DOMContentLoaded', () => {
         statusDiv.style.display = 'block';
     }
     function clearStatus() { statusDiv.innerHTML = ''; statusDiv.style.display = 'none'; }
-    function escapeHTML(str) { /* ... keep implementation ... */ }
-    function ensureHttps(url) { /* ... keep implementation ... */ }
+    function escapeHTML(str) { 
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+    function ensureHttps(url) {
+        if (!url || url.trim() === '') return '';
+        url = url.trim();
+        if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            return 'https://' + url;
+        }
+        return url.replace(/^http:\/\//i, 'https://');
+    }
 
 
     // --- Load Current Profile ---
@@ -152,8 +166,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- Language Input Functions ---
-    function renderLanguageInputs(languages = []) { /* ... keep implementation ... */ }
-    function addLanguageInputRow(lang = { name: '', proficiency: 0 }, index = -1) { /* ... keep implementation ... */ }
+    function renderLanguageInputs(languages = []) {
+        // Clear existing language inputs
+        languageListDiv.innerHTML = '';
+        
+        // If no languages, add one empty row
+        if (!languages.length) {
+            addLanguageInputRow();
+            return;
+        }
+        
+        // Add a row for each language
+        languages.forEach((lang, index) => {
+            addLanguageInputRow(lang, index);
+        });
+    }
+    
+    function addLanguageInputRow(lang = { name: '', proficiency: 0 }, index = -1) {
+        // Generate unique ID for this row
+        const rowId = index >= 0 ? index : new Date().getTime();
+        
+        // Create language item container
+        const langItem = document.createElement('div');
+        langItem.className = 'language-item';
+        langItem.dataset.index = rowId;
+        
+        // HTML for the language input row
+        langItem.innerHTML = `
+            <div class="language-input-group">
+                <div class="lang-name-input">
+                    <label for="langName_${rowId}">Language:</label>
+                    <input type="text" id="langName_${rowId}" name="langName_${rowId}" 
+                        value="${escapeHTML(lang.name)}" placeholder="e.g., JavaScript, Python">
+                </div>
+                
+                <div class="lang-proficiency-input">
+                    <label for="langProficiency_${rowId}">Proficiency (0-100%):</label>
+                    <input type="number" id="langProficiency_${rowId}" name="langProficiency_${rowId}" 
+                        value="${lang.proficiency || 0}" min="0" max="100">
+                </div>
+                
+                <button type="button" class="remove-lang-btn" aria-label="Remove language">
+                    <i class="fas fa-trash" aria-hidden="true"></i> Remove
+                </button>
+            </div>
+        `;
+        
+        // Add event listener for the remove button
+        const removeBtn = langItem.querySelector('.remove-lang-btn');
+        removeBtn.addEventListener('click', function() {
+            langItem.remove();
+        });
+        
+        // Append the new language item to the list
+        languageListDiv.appendChild(langItem);
+    }
+    
     addLangBtn.addEventListener('click', () => addLanguageInputRow()); // Keep listener
 
 
@@ -208,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
              if (!token) { throw new Error("Authentication token missing. Please log in."); }
-             const response = await fetch(`${API_BASE_URL}/api/auth/me`, { /* ... PUT options ... */
+             const response = await fetch(`${API_BASE_URL}/api/auth/me`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(updatedProfileData)
@@ -232,9 +300,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initial Load ---
     loadCurrentProfile();
-
-    // --- Escape HTML Helper ---
-    // (Ensure this function is defined either here or globally)
-    // function escapeHTML(str) { ... }
-
 }); // End DOMContentLoaded
