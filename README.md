@@ -23,7 +23,6 @@ You can use the following credentials to test the different roles on the live si
 
 *(Note: These are test accounts and do not contain real user data.)*
 
-
 ## Key Features Implemented
 
 This platform brings several community-focused features to life:
