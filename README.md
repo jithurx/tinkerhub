@@ -34,7 +34,7 @@ This platform brings several community-focused features to life:
     *   Unified **Login** page routing users based on role (students to profile, admins to dashboard).
     *   Role-based access control for administrative actions.
 *   🎨 **Engaging Frontend:**
-    *   A unique "Tinker Theme" with eclectic fonts, vibrant colors, and textures, **inspired by the visual philosophy of the official TinkerHub site ([tinkerhub.org](https://tinkerhub.org/))**.
+    *   **inspired by the visual philosophy of the official TinkerHub site ([tinkerhub.org](https://tinkerhub.org/))**.
     *   Dynamic "Lava Lamp" style background animation on the homepage (`metaball.js`).
     *   **Responsive Design** adapting to different screen sizes.
     *   Dynamically loaded header/footer components using Vanilla JS (`js/main.js`).
