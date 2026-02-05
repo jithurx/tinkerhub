@@ -1,5 +1,7 @@
 #  TinkerHub NSSCE Campus Hub - WebFusion Final Project 
 
+![Partially Vibe Coded](https://img.shields.io/badge/development-partially_vibe_coded-d4a017?style=flat-square)
+
 Hey there! 👋 This is my final project submission for the TinkerHub WebFusion program. The goal was to dive deep, apply the skills learned throughout the program, and build a functional and engaging website for a hypothetical TinkerHub Campus Community (specifically, NSSCE).
 
 This project evolved into a **dynamic full-stack application**, aiming to be a central place for students and chapter administrators to connect, share information, manage events, and foster community spirit. It features direct image uploads using Cloudinary, admin controls integrated onto relevant public pages, and an initial loading screen to mitigate backend cold starts.
